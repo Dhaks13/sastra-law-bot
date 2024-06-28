@@ -9,4 +9,16 @@ export class HomePage {
 
   constructor() {}
 
+  ngOnInit() {
+    console.log('Home Page');
+  }
+
+  signIn(){
+    console.log('Sign In');
+  }
+
+  signUp(){
+    console.log('Sign Up');
+  }
+
 }

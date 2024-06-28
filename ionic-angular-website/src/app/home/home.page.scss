@@ -1,27 +1,74 @@
-#container {
-  text-align: center;
-
-  position: absolute;
+#ion-header {
+  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  z-index: 1000;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+#ion-toolbar-content {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+#ion-toolbar-content img {
+  width: 55px;
+  height: 65px; /* Adjust height as needed */
+  margin: 10px;
+}
 
-  color: #8c8c8c;
-
+ion-title {
   margin: 0;
+  font-size: 1.2em;
+  color: #ffffff;
 }
 
-#container a {
-  text-decoration: none;
+ion-content {
+  --ion-background-color: #f4f4f4; /* Background color of ion-content */
+}
+
+.content {
+  margin-top: 150px;
+  text-align: center;
+}
+
+.content p {
+  font-size: 45px;
+  line-height: 2wm;
+  color: #222222;
+  padding: 25px 0 0 0;
+}
+
+.content span{
+  color: #222222c0;
+}
+
+#ion-toolbar-content img:hover {
+    color: #252525;
+    background: whitesmoke;
+    box-shadow: 0 0 10px white;
+}
+
+
+@media screen and (max-width: 740px) {
+  
+.content p {
+  font-size: 20px;
+  line-height: 1em;
+  padding: 15px 0 0 0;
+}
+}
+
+
+@media screen and (min-width: 740px) and (max-width: 1124x) {
+  
+.content p {
+  font-size: 30px;
+  line-height: 1.2em;
+  padding: 20px 0 0 0;
+}
+
 }
