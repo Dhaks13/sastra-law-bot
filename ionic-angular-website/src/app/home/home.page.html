@@ -1,7 +1,7 @@
 <ion-header id="ion-header">
   <ion-toolbar class="ion-top-bar">
     <div id="ion-toolbar-content">
-      <img src="assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
+      <img src="../../assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
       <ion-title>
         ViHaRa ChatBot
       </ion-title>
@@ -11,16 +11,26 @@
 
 <ion-content [fullscreen]="true">
   <div class="content">
-    <p>
-      Welcome to the ViHaRa ChatBot. 
-    </p>
-    <span> Sign In (or) Sign Up to continue. </span>
-
-    <ion-button expand="block" fill="outline" (click)="signIn()">
-      Sign In
-    </ion-button>
-    <ion-button expand="block" fill="outline" (click)="signUp()">
-      Sign Up
-    </ion-button>
+    <div class="image-container">      
+    <img src="../../assets/icon/sastra_logo.jpg" alt="Sastra Icon" />
+      <img src="../../assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
+      <img src="../../assets/icon/tata_logo.jpg" alt="Tata Icon" />
+    </div>
+    <div class="ion-text-center">
+      <p>
+        Welcome to the ViHaRa ChatBot. 
+      </p>
+      <span> Sign In (or) Sign Up to continue. </span>
+    </div>
+    <div class="button-group-container">
+      <div id="ion-button-group" class="ion-button-group">
+        <ion-button expand="block" fill="outline" (click)="signIn()">
+          Sign In
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="signUp()">
+          Sign Up
+        </ion-button>
+      </div>
+    </div>
   </div>
 </ion-content>

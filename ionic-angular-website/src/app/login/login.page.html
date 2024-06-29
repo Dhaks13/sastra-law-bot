@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>ViHaRa ChatBot</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content [fullscreen]="true">
+    <div class="content">
+      <div class="form-container" [class.sign-up]="!isSignIn">
+        <div class="form">
+          <h2 *ngIf="isSignIn">Sign In</h2>
+          <h2 *ngIf="!isSignIn">Sign Up</h2>
+          <form *ngIf="isSignIn">
+            <!-- Sign In Form -->
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input type="password"></ion-input>
+            </ion-item>
+            <ion-button expand="block">Sign In</ion-button>
+          </form>
+          <form *ngIf="!isSignIn">
+            <!-- Sign Up Form -->
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input type="password"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Confirm Password</ion-label>
+              <ion-input type="password"></ion-input>
+            </ion-item>
+            <ion-button expand="block">Sign Up</ion-button>
+          </form>
+          <ion-button expand="block" fill="outline" (click)="toggleView()">
+            {{ isSignIn ? 'Sign Up' : 'Sign In' }}
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  
