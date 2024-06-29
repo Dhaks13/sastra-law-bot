@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoaderComponent } from 'src/app/loader/loader.component';
+import { LoaderComponent } from 'src/app/components/loader/loader.component';
 
 @Component({
   selector: 'app-home',
