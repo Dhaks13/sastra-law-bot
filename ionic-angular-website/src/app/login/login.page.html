@@ -1,48 +1,75 @@
-<ion-header>
-    <ion-toolbar>
-      <ion-title>ViHaRa ChatBot</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content [fullscreen]="true">
-    <div class="content">
-      <div class="form-container" [class.sign-up]="!isSignIn">
-        <div class="form">
-          <h2 *ngIf="isSignIn">Sign In</h2>
-          <h2 *ngIf="!isSignIn">Sign Up</h2>
-          <form *ngIf="isSignIn">
-            <!-- Sign In Form -->
-            <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input type="email"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Password</ion-label>
-              <ion-input type="password"></ion-input>
-            </ion-item>
-            <ion-button expand="block">Sign In</ion-button>
-          </form>
-          <form *ngIf="!isSignIn">
-            <!-- Sign Up Form -->
-            <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input type="email"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Password</ion-label>
-              <ion-input type="password"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Confirm Password</ion-label>
-              <ion-input type="password"></ion-input>
-            </ion-item>
-            <ion-button expand="block">Sign Up</ion-button>
-          </form>
-          <ion-button expand="block" fill="outline" (click)="toggleView()">
-            {{ isSignIn ? 'Sign Up' : 'Sign In' }}
-          </ion-button>
-        </div>
+<ion-header id="ion-header">
+  <ion-toolbar class="ion-top-bar">
+    <div id="ion-toolbar-content">
+      <img src="../../assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
+      <ion-title>
+        ViHaRa ChatBot
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content">
+    <div class="form-container" [class.sign-up]="!isSignIn">
+      <div class="form">
+        <h2 *ngIf="isSignIn">Sign In</h2>
+        <h2 *ngIf="!isSignIn">Sign Up</h2>
+        <form *ngIf="isSignIn" (ngSubmit)="submitSignupForm()">
+          <!-- Sign In Form -->
+          <ion-item>
+            <ion-label position="floating">Username/Email</ion-label>
+            <ion-input type="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" #signInPasswordInput [style.color]="passwordTextColor"></ion-input>
+            <ion-icon name="eye" slot="end" class="password-overlay" (click)="togglePasswordVisibility(signInPasswordInput)"></ion-icon>
+          </ion-item>
+          <!-- reCAPTCHA widget -->
+          <div class="recaptcha-container" #recaptchaElement></div>
+          <ion-button expand="block" [disabled]="buttonDisabled">Sign In</ion-button>
+        </form>
+        <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()">
+          <!-- Sign Up Form -->
+          <ion-item>
+            <ion-label position="floating">Username</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" #signUpPasswordInput [style.color]="passwordTextColor"></ion-input>
+            <ion-icon name="eye" slot="end" class="password-overlay" (click)="togglePasswordVisibility(signUpPasswordInput)"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-input type="password" #confirmPasswordInput [style.color]="passwordTextColor"></ion-input>
+            <ion-icon name="eye" slot="end" class="password-overlay" (click)="toggleConfirmPasswordVisibility(confirmPasswordInput)"></ion-icon>
+          </ion-item>
+          <!-- reCAPTCHA widget -->
+          <div class="recaptcha-container" #recaptchaElement></div>
+          <ion-button expand="block" [disabled]="buttonDisabled">Sign Up</ion-button>
+        </form>
+        <ion-button expand="block" fill="outline" (click)="toggleView()">
+          {{ isSignIn ? 'Sign Up' : 'Sign In' }}
+        </ion-button>
       </div>
     </div>
-  </ion-content>
-  
+  </div>
+</ion-content>
+
+<ion-footer collapse="fade">
+  <ion-toolbar>
+    <div class="footer-content">
+      <span>© 2023 ViHaRa ChatBot <sub>All Rights Reserved</sub></span>
+      <br>
+      <span>Developed by: <sub>Rajaraman S | Harinarayanan S G | Vignesh Ram Narayanan | Sharon Joe | Dhakshin A V</sub></span>
+      <br>
+      <span>Under the Guidance of: <sub>Dr.V.S.Shankar Shriram | Dr.H.Anila Glory</sub></span>
+    </div>
+  </ion-toolbar>
+</ion-footer>

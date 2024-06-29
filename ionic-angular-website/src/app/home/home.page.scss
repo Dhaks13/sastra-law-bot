@@ -122,6 +122,25 @@ ion-button {
   font-size: 20px;
 }
 
+ion-footer {
+  ion-toolbar {
+    background-color: #f0f0f0; /* Example background color */
+    padding: 5px; /* Example padding */
+    
+    /* Styling the second span */
+    span {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      
+      sub {
+        font-size: 10px;
+      }
+    }
+   
+  }
+}
+
 
 /* Responsive styles for screens smaller than 740px */
 @media screen and (max-width: 740px) {

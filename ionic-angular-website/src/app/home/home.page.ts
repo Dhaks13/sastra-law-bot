@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoaderComponent } from 'src/app/loader/loader.component';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage {
+  loading: Boolean = false;
 
   constructor(private router: Router) {}
 

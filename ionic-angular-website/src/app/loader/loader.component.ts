@@ -7,7 +7,7 @@ import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChange
 })
 export class LoaderComponent implements OnInit {
 
-  @Input() visible : Boolean = false;
+  @Input() visible : Boolean = true;
 
   constructor() { }
 
