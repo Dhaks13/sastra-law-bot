@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -8,12 +9,13 @@ import { Component } from '@angular/core';
 export class ChatPage {
   decisionResult: string = '';
 
-  constructor() {
+  constructor(private router: Router) {
     this.decisionResult = '';
   }
 
   logout() {
     // Implement logout functionality
+    this.router.navigate(['/home']);
   }
 
   onFileSelected(event: Event) {

@@ -54,9 +54,13 @@
           <div class="recaptcha-container" #recaptchaElement></div>
           <ion-button expand="block" [disabled]="buttonDisabled">Sign Up</ion-button>
         </form>
+        <div class="alt-text-container">
+        <ion-text color="light" class="alt-text" *ngIf="isSignIn">Don't have an account?</ion-text>
+        <ion-text color="light" class="alt-text" *ngIf="!isSignIn">Already have an account?</ion-text>
         <ion-button expand="block" fill="outline" (click)="toggleView()">
           {{ isSignIn ? 'Sign Up' : 'Sign In' }}
         </ion-button>
+        </div>
       </div>
     </div>
   </div>

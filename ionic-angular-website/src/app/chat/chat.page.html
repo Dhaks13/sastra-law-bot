@@ -1,42 +1,72 @@
-<ion-header>
-    <ion-toolbar>
-      <ion-title>Decision Support System</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
+<ion-header id="ion-header">
+  <ion-toolbar class="ion-top-bar">
+    <div id="ion-toolbar-content">
+      <img src="../../assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
+      <ion-title>
+        ViHaRa ChatBot
+      </ion-title>
+      <div id="ion-toolbar-content-right">
+        <ion-text color="light">Welcome, displayName</ion-text>
+        <ion-button (click)="logout()" class="logout-button">Logout</ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
   <ion-content [fullscreen]="true">
     <div class="container">
-      <div class="header-section">
-        <img src="assets/icon/sastra_logo.jpg" alt="Sastra Icon" />
-        <img src="assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
-        <img src="assets/icon/tata_logo.jpg" alt="Tata Icon" />
+      <div class="card-container">
+        <div class="card-elemet">
+          <div class="elemet-content">  
+          <div class="upload-section">
+            <h4>Upload your Law PDF here and click on Process</h4>
+            <ion-input type="file" (change)="onFileSelected($event)" />
+            <ion-button (click)="processFile()">Process</ion-button>
+          </div>
+      
+          <div class="result-section">
+            <p>The possible decision of the uploaded family dispute file will be</p>
+            <p><strong>{{decisionResult}}</strong></p>
+          </div>
+        </div>
       </div>
-      <ion-button (click)="logout()">Logout</ion-button>
-      
-      <h2>SASTRA'S lawbot is ready, how can I help you?</h2>
-      
-      <ion-item>
-        <ion-label>click to enable intellectual case interaction</ion-label>
-        <ion-toggle></ion-toggle>
-      </ion-item>
-      
-      <h3>Family Case Bot</h3>
-      
-      <ion-item>
-        <ion-label position="floating" title="Ask a question">Ask a question</ion-label>
-        <ion-input title="Ask a question"></ion-input>
-      </ion-item>
-      
-      <div class="upload-section">
-        <h4>Upload your Law PDF here and click on Process</h4>
-        <ion-input type="file" (change)="onFileSelected($event)" />
-        <ion-button (click)="processFile()">Process</ion-button>
+
+        <div class="card-elemet">
+        <div class="elemet-content">  
+          <div class="header-section">
+            <img src="assets/icon/sastra_logo.jpg" alt="Sastra Icon" />
+            <img src="assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
+            <img src="assets/icon/tata_logo.jpg" alt="Tata Icon" />
+          </div>
+        
+          <h2>SASTRA'S lawbot is ready, how can I help you?</h2>
+        
+          <ion-item>
+            <ion-label>click to enable intellectual case interaction</ion-label>
+            <ion-toggle></ion-toggle>
+          </ion-item>
+        
+          <h3>Family Case Bot</h3>
+        
+          <ion-item>
+            <ion-label position="floating" title="Ask a question">Ask a question</ion-label>
+            <ion-input title="Ask a question"></ion-input>
+          </ion-item>
+        </div>
       </div>
-      
-      <div class="result-section">
-        <p>The possible decision of the uploaded family dispute file will be</p>
-        <p><strong>{{decisionResult}}</strong></p>
+        
       </div>
     </div>
   </ion-content>
   
+<ion-footer collapse="fade">
+  <ion-toolbar>
+    <div class="footer-content">
+      <span>© 2023 ViHaRa ChatBot <sub>All Rights Reserved</sub></span>
+      <br>
+      <span>Developed by: <sub>Rajaraman S | Harinarayanan S G | Vignesh Ram Narayanan | Sharon Joe | Dhakshin A V</sub></span>
+      <br>
+      <span>Under the Guidance of: <sub>Dr.V.S.Shankar Shriram | Dr.H.Anila Glory</sub></span>
+    </div>
+  </ion-toolbar>
+</ion-footer>

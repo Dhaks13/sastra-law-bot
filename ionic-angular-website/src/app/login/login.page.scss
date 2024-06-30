@@ -1,49 +1,3 @@
-/* Header styles */
-#ion-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ccc;
-}
-
-/* Toolbar content styles */
-#ion-toolbar-content {
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-}
-
-/* Toolbar images styles */
-#ion-toolbar-content img {
-  width: 55px;
-  height: 65px;
-  margin: 10px;
-}
-
-/* Title styles */
-ion-title {
-  margin: 0;
-  font-size: 1.2em;
-  color: #ffffff;
-}
-
-/* Content background color */
-ion-content {
-  --ion-background-color: #f4f4f4; /* Background color of ion-content */
-}
-
-.content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: #f0f0f0; /* Background color */
-  color: black; /* Text color */
-}
-
 .form-container {
   background-color: #ffffff;
   color: #333; /* Dark gray text color */
@@ -125,19 +79,17 @@ ion-button:hover {
   opacity: 1; /* Ensure the container is fully opaque */
 }
 
+.alt-text-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Space between the form and alternative text */
+}
 
-ion-footer {
-  ion-toolbar {
-    background-color: #f8f8f8; /* Light background color */
-    padding: 10px; /* Padding inside the toolbar */
-    
-    .footer-content {
-      text-align: center; /* Center align content */
-      font-size: 14px; /* Font size for the footer text */
-      
-      sub {
-        font-size: 80%; /* Adjust font size for subscripts */
-      }
-    }
-  }
+.alt-text-container ion-text {
+  color: #333; /* Dark gray text color */
+}
+.alt-text-container ion-text a {
+  margin-top: 0; /* Space between links */
+  text-decoration: none; /* Remove underline from link */
 }

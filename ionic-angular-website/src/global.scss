@@ -25,13 +25,175 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+
+  /*Ionic Dark Mode
+  -----------------------------------------------------
+    To customize the dark mode of your app, you can add your own styles here.
+
+  For more info, please see:
+  https://ionicframework.com/docs/theming/dark-mode
+*/
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Header styles */
+#ion-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Toolbar content styles */
+#ion-toolbar-content {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+
+/* Toolbar images styles */
+#ion-toolbar-content img {
+  width: 55px;
+  height: 65px;
+  margin: 10px;
+}
+
+
+/* Toolbar image hover effect */
+#ion-toolbar-content img:hover {
+  color: #252525;
+  background: whitesmoke;
+  box-shadow: 0 0 10px white;
+}
+
+/* Title styles */
+ion-title {
+  margin: 0;
+  font-size: 1.2em;
+  color: #ffffff;
+}
+
+/* Content background color */
+ion-content {
+  --ion-background-color: #f4f4f4; /* Background color of ion-content */
+}
+
+/* Main content styles */
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f0f0; /* Background color */
+  color: black; /* Text color */
+}
+
+/* Content image styles */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Space below the image */
+}
+
+/* Image styles */
+.image-container img {
+  width: 250px;
+  height: 250px;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #ccc;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  color: #333; /* Dark gray text color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  width: 300px; /* Fixed width for the form container */
+  max-width: 90%; /* Maximum width for responsiveness */
+  transition: transform 0.3s ease-in-out; /* Smooth transform transition */
+}
+
+.form-container.sign-up {
+  transform: rotateY(360deg); /* Example transformation on sign-up */
+}
+
+ion-item {
+  --padding-start: 10px; /* Left padding */
+  --padding-end: 10px; /* Right padding */
+  --padding-top: 10px; /* Top padding */
+  --padding-bottom: 10px; /* Bottom padding */
+  --background: #f5f5f5; /* Light gray background */
+  --border-radius: 8px; /* Rounded corners */
+  border: 1px solid #ddd; /* Light border */
+  margin-bottom: 15px; /* Space between ion-items */
+}
+
+ion-button {
+  --border-radius: 20px; /* Rounded corners for button */
+  margin-top: 5px;
+  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+ion-button:hover {
+  border-radius: 20px;
+  color: #252525;
+  box-shadow: 0 0 5px skyblue;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-input ion-input {
+  padding-right: 40px; /* Space for icon */
+}
+
+.password-overlay {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #303030; /* Light gray color for icon */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.password-overlay.active {
+  color: #333; /* Dark gray color for icon when active */
+}
+
+
+
+ion-footer {
+  ion-toolbar {
+    background-color: #f8f8f8; /* Light background color */
+    padding: 10px; /* Padding inside the toolbar */
+    align-self: center;
+    justify-content: center;
+    text-align: center; /* Center align content */
+    .footer-content {
+      font-size: 14px; /* Font size for the footer text */
+      
+      sub {
+        font-size: 80%; /* Adjust font size for subscripts */
+      }
+    }
+  }
+}
