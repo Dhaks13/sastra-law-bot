@@ -19,8 +19,9 @@
         <div class="card-elemet">
           <div class="elemet-content">  
           <div class="upload-section">
-            <h4>Upload your Law PDF here and click on Process</h4>
-            <ion-input type="file" (change)="onFileSelected($event)" />
+            <h3>Decision Support System</h3>
+            <h5>Upload your Law PDF here and click on Process</h5>
+            <ion-input type="file" (change)="onFileSelected($event)" [clearInput]="true"/>
             <ion-button (click)="processFile()">Process</ion-button>
           </div>
       

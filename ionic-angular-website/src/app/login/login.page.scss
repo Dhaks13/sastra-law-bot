@@ -19,25 +19,18 @@
   align-items: center;
 }
 
-ion-item {
-  --padding-start: 10px; /* Left padding */
-  --padding-end: 10px; /* Right padding */
-  --padding-top: 10px; /* Top padding */
-  --padding-bottom: 10px; /* Bottom padding */
-  --background: #f5f5f5; /* Light gray background */
-  --border-radius: 8px; /* Rounded corners */
-  border: 1px solid #ddd; /* Light border */
-  margin-bottom: 15px; /* Space between ion-items */
-  
-  /* Ensure input text is black */
-  ion-label, ion-input {
+
+  ion-input {
     color: black;
+    padding: 10px;
+    margin: 15px;
   }
   
   ion-input {
+    
     --color: black; /* Make sure the input text is black */
   }
-}
+
 
 ion-button {
   margin-top: 20px;

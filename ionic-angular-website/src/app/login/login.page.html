@@ -17,39 +17,96 @@
         <h2 *ngIf="!isSignIn">Sign Up</h2>
         <form *ngIf="isSignIn" (ngSubmit)="submitSignupForm()">
           <!-- Sign In Form -->
-          <ion-item>
-            <ion-label position="floating">Username/Email</ion-label>
-            <ion-input type="email"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" #signInPasswordInput [style.color]="passwordTextColor"></ion-input>
-            <ion-icon name="eye" slot="end" class="password-overlay" (click)="togglePasswordVisibility(signInPasswordInput)"></ion-icon>
-          </ion-item>
+          <ion-input 
+          fill="outline"
+           labelPlacement="floating"
+            label="Username/Email*" 
+            type="text"
+            ngModel
+            #UsernameInput
+            required
+            autofocus
+            />
+            <ion-input  
+            fill="outline" 
+            labelPlacement="floating" 
+            label="Password*" 
+            type="password" 
+            #signUpPasswordInput  
+            clear-on-edit="false" 
+            type="{{ showPassword ? 'text' : 'password' }}" 
+            minlength="8"  
+            error-text="Password must contain atleast 8 charecters"
+            ngModel
+            password
+            required 
+            >
+              <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+            </ion-input>
           <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
           <ion-button expand="block" [disabled]="buttonDisabled">Sign In</ion-button>
         </form>
         <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()">
           <!-- Sign Up Form -->
-          <ion-item>
-            <ion-label position="floating">Username</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" #signUpPasswordInput [style.color]="passwordTextColor"></ion-input>
-            <ion-icon name="eye" slot="end" class="password-overlay" (click)="togglePasswordVisibility(signUpPasswordInput)"></ion-icon>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Confirm Password</ion-label>
-            <ion-input type="password" #confirmPasswordInput [style.color]="passwordTextColor"></ion-input>
-            <ion-icon name="eye" slot="end" class="password-overlay" (click)="toggleConfirmPasswordVisibility(confirmPasswordInput)"></ion-icon>
-          </ion-item>
+            <ion-input 
+            fill="outline"
+             labelPlacement="floating"
+              label="Username*" 
+              type="text"
+              [value]="Username"
+              (ionInput)="onInput($event)"
+              [counter]="true"
+              maxlength="35"
+              minlength="4"
+              ngModel
+              [counterFormatter]="customCounterFormatter"
+              #UsernameInput
+              required
+              autofocus
+              />
+            <ion-input  
+            fill="outline" 
+            labelPlacement="floating" 
+            label="Email*" 
+            type="email"
+            helperText="Enter a valid email"
+            error-text="Invalid email"
+            ngModel 
+            email
+            required
+             />
+            <ion-input  
+            fill="outline" 
+            labelPlacement="floating" 
+            label="Password*" 
+            type="password" 
+            #signUpPasswordInput  
+            clear-on-edit="false" 
+            type="{{ showPassword ? 'text' : 'password' }}" 
+            minlength="8"  
+            error-text="Password must contain atleast 8 charecters"
+            ngModel
+            password
+            required 
+            >
+              <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+            </ion-input>
+            <ion-input 
+            ngModel 
+            confirmpassword 
+            required 
+            minlength="8" 
+            clear-on-edit="false"  
+            error-text="Password didn't match" 
+            fill="outline" labelPlacement="floating" 
+            label="Confirm Password*" 
+            type="password" 
+            #confirmPasswordInput 
+            type="{{ showConfirmPassword ? 'text' : 'password' }}" 
+            >            
+              <ion-icon name="{{ showConfirmPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="toggleConfirmPasswordVisibility()"></ion-icon>  
+            </ion-input>
           <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
           <ion-button expand="block" [disabled]="buttonDisabled">Sign Up</ion-button>

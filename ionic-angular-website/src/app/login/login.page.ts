@@ -14,24 +14,29 @@ export class LoginPage {
   captchaResolved: boolean = false;
   buttonDisabled: boolean = true; // Initially disable button
   siteKey: string = '6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul'; // Replace with your reCAPTCHA v3 site key
-  passwordTextType: string = 'password'; // Initial type for password fields
-  passwordTextColor: string = 'black'; // Define passwordTextColor property
-
+  password: string = '';
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+  Username = '';
+  
   @ViewChild('recaptchaElement', { static: false }) recaptchaElement!: ElementRef;
+  @ViewChild('UsernameInput', { static: true }) UsernameInput!: IonInput;
 
+
+  
   constructor(private route: ActivatedRoute) {}
-
+  
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.isSignIn = params['isSignIn'] === 'true';
     });
   }
-
+  
   ngAfterViewInit() {
     // Initialize reCAPTCHA v3
     this.loadReCaptcha();
   }
-
+  
   loadReCaptcha() {
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${this.siteKey}`;
@@ -44,7 +49,7 @@ export class LoginPage {
     };
     document.body.appendChild(script);
   }
-
+  
   executeReCaptcha() {
     grecaptcha.execute(this.siteKey, { action: 'login' }).then((token: string) => {
       console.log('reCAPTCHA token:', token);
@@ -58,10 +63,23 @@ export class LoginPage {
       this.buttonDisabled = false; // Enable button once captcha is resolved
     }
   }
-
+  
   submitForm() {
     // Handle your form submission here
     console.log('Form submitted');
+  }
+  
+  onInput(ev: any) {
+  const value = ev.target!.value;
+  
+  // Removes non alphanumeric characters
+    const filteredValue = value.replace(/[^a-zA-Z0-9_]+/g, '');
+
+    /**
+     * Update both the state variable and
+     * the component to keep them in sync.
+     */
+    this.UsernameInput.value = this.Username = filteredValue;
   }
 
   toggleView() {
@@ -72,34 +90,28 @@ export class LoginPage {
       this.executeReCaptcha();
     }, 500); // Adjust timeout as needed
   }
-
+  
   resetCaptcha() {
     this.captchaResolved = false;
     this.buttonDisabled = true; // Disable button when captcha is reset
   }
 
-  async togglePasswordVisibility(inputField: IonInput) {
-    const inputElement = await inputField?.getInputElement?.();
-    if (inputElement) {
-      this.passwordTextType = this.passwordTextType === 'password' ? 'text' : 'password';
-      this.togglePasswordTextColor(this.passwordTextType, inputElement.value);
-    }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  
   }
 
-  async toggleConfirmPasswordVisibility(inputField: IonInput) {
-    const inputElement = await inputField?.getInputElement?.();
-    if (inputElement) {
-      this.passwordTextType = this.passwordTextType === 'password' ? 'text' : 'password';
-      this.togglePasswordTextColor(this.passwordTextType, inputElement.value);
-    }
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
-
-  togglePasswordTextColor(type: string, value: string) {
-    this.passwordTextColor = type === 'password' && value === '' ? 'black' : '#666';
-  }
+  
 
   submitSignupForm() {
     // Handle your form submission here
     console.log('Sign Up form submitted');
+  }
+
+  customCounterFormatter(inputLength: number, maxLength: number) {
+    return `${maxLength - inputLength} characters remaining`;
   }
 }
