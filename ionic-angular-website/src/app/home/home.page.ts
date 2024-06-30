@@ -22,6 +22,7 @@ export class HomePage {
   }
 
   signUp(){
+    console.log('Sign Up');
     this.router.navigate(['/login'], { queryParams: { isSignIn: false } });
   }
 

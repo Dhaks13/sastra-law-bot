@@ -197,3 +197,31 @@ ion-footer {
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  ion-title {
+    font-size: 1em;
+  }
+
+  .content p {
+    font-size: 20px;
+    line-height: 0.8em;
+    padding: 15px 0 0 0;
+  }
+
+
+  .image-container img {
+    width: 120px;
+    height: 120px;
+  }
+
+  ion-footer {
+    ion-toolbar {
+      padding: 5px; /* Adjust padding for small screens */
+    }
+  }
+  #credits{
+    display: none;
+  }
+  
+}

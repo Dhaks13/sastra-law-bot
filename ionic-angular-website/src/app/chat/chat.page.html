@@ -5,7 +5,7 @@
       <ion-title>
         ViHaRa ChatBot
       </ion-title>
-      <div id="ion-toolbar-content-right">
+      <div class="ion-toolbar-content-right">
         <ion-text color="light">Welcome, displayName</ion-text>
         <ion-button (click)="logout()" class="logout-button">Logout</ion-button>
       </div>
@@ -13,61 +13,100 @@
   </ion-toolbar>
 </ion-header>
 
-  <ion-content [fullscreen]="true">
-    <div class="container">
-      <div class="card-container">
-        <div class="card-elemet">
-          <div class="elemet-content">  
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="card-container">
+      <div class="card-element">
+        <div class="element-content">  
           <div class="upload-section">
-            <h3>Decision Support System</h3>
+            <h3><b>Decision Support System</b></h3>
             <h5>Upload your Law PDF here and click on Process</h5>
-            <ion-input type="file" (change)="onFileSelected($event)" [clearInput]="true"/>
-            <ion-button (click)="processFile()">Process</ion-button>
+            <div
+            class="drop-zone"
+            (drop)="onDrop($event)"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+          >
+            <input
+              type="file"
+              accept=".pdf"
+              (change)="onFileSelected($event)"
+              hidden
+              #fileInput
+            />
+            <div class="drop-zone-text">
+              Drag and drop files here<br />
+              Limit 200MB per file<br />
+              <ion-button type="button" ion-button (click)="fileInput.click()">Browse files</ion-button>
+            </div>
+          </div>
+          <div *ngIf="selectedFile" style="display: inline;">
+            <ion-icon name="document-outline"></ion-icon>
+            {{ selectedFile.name }} ({{ selectedFile.size / 1024 | number: '1.0-2' }} KB)
+            <ion-icon name="trash-outline" (click)="removeFile()"></ion-icon>
+          </div>
+          <br>
+          <ion-button (click)="processFile()">Process</ion-button>
           </div>
       
-          <div class="result-section">
+          <div class="result-section" *ngIf="decisionResult">
             <p>The possible decision of the uploaded family dispute file will be</p>
             <p><strong>{{decisionResult}}</strong></p>
           </div>
         </div>
       </div>
 
-        <div class="card-elemet">
-        <div class="elemet-content">  
+      <div class="card-element">
+        <div class="element-content">  
           <div class="header-section">
             <img src="assets/icon/sastra_logo.jpg" alt="Sastra Icon" />
             <img src="assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
             <img src="assets/icon/tata_logo.jpg" alt="Tata Icon" />
           </div>
         
-          <h2>SASTRA'S lawbot is ready, how can I help you?</h2>
-        
-          <ion-item>
-            <ion-label>click to enable intellectual case interaction</ion-label>
-            <ion-toggle></ion-toggle>
-          </ion-item>
-        
-          <h3>Family Case Bot</h3>
-        
-          <ion-item>
-            <ion-label position="floating" title="Ask a question">Ask a question</ion-label>
-            <ion-input title="Ask a question"></ion-input>
-          </ion-item>
+          <h3><b>SASTRA'S lawbot is ready, how can I help you?</b></h3>
+          
+          <ion-toggle aria-label="Enable Notifications"></ion-toggle>
+          <ion-label> click to enable intellectual case interaction</ion-label>
+          <br>
+          <!-- Chat Window Section -->
+          <div class="chat-section">
+            <h3><b>Family Case ChatBot</b></h3>
+            <div class="chat-container">
+              <div class="messages">
+                <!-- Example message -->
+                <div class="message bot">
+                  <p>Welcome to the chat! How can I assist you today?</p>
+                </div>
+                <div class="message user">
+                  <p>Can you help me with a legal question?</p>
+                </div>
+                <!-- Add more messages here dynamically -->
+              </div>          
+              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws"placeholder="Type your message..." [(ngModel)]="userMessage">
+                <ion-button fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
+                  <ion-icon slot="icon-only" name="send" aria-hidden="true"></ion-icon>
+                </ion-button>
+              </ion-input>
+            </div>     
+          </div>
         </div>
       </div>
-        
-      </div>
+      
     </div>
-  </ion-content>
+  </div>
+</ion-content>
   
 <ion-footer collapse="fade">
   <ion-toolbar>
     <div class="footer-content">
       <span>© 2023 ViHaRa ChatBot <sub>All Rights Reserved</sub></span>
       <br>
+      <div id="credits">
       <span>Developed by: <sub>Rajaraman S | Harinarayanan S G | Vignesh Ram Narayanan | Sharon Joe | Dhakshin A V</sub></span>
       <br>
       <span>Under the Guidance of: <sub>Dr.V.S.Shankar Shriram | Dr.H.Anila Glory</sub></span>
     </div>
+  </div>
   </ion-toolbar>
 </ion-footer>
