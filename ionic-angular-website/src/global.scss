@@ -37,7 +37,9 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
-
+*{
+  transition: all 0.5s;
+}
 /* Header styles */
 #ion-header {
   position: fixed;
@@ -105,8 +107,8 @@ ion-content {
 
 /* Image styles */
 .image-container img {
-  width: 250px;
-  height: 250px;
+  width: 150px;
+  height: 150px;
   padding: 15px;
   margin: 5px;
   border-radius: 5px;
@@ -179,8 +181,6 @@ ion-button:hover {
   color: #333; /* Dark gray color for icon when active */
 }
 
-
-
 ion-footer {
   ion-toolbar {
     background-color: #f8f8f8; /* Light background color */
@@ -210,10 +210,6 @@ ion-footer {
   }
 
 
-  .image-container img {
-    width: 120px;
-    height: 120px;
-  }
 
   ion-footer {
     ion-toolbar {

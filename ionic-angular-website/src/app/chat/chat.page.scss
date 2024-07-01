@@ -26,7 +26,7 @@
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
   transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-  flex: 3;
+  flex: 5;
   padding: 40px 20px ;
 }
 
@@ -113,6 +113,7 @@ ion-item {
     gap: 10px;
     
     ion-text{
+      display: inline-block; /* Show by default */
       color: white;
       padding: 10px;
       margin-right: 5px;
@@ -151,15 +152,22 @@ ion-toggle::part(track) {
 
 
 .chat-section {
-  flex: 1 1 40%;
-  display: flex;
-  flex-direction: column;
+  display: block;
   justify-content: space-between;
-  height: 40vh;
+  align-items: center;
+  margin: 0 auto;
   border: 2px solid #333;
   border-radius: 5px;
-  padding: 20px;
-  min-width: 80%;
+  padding: 10px;
+  min-width: 70%;
+  max-width: 80%;
+
+  ion-input{
+    justify-content: baseline;
+    align-self: baseline;
+    align-items: baseline;
+    justify-self: baseline;
+  }
 }
 
 .messages-container {
@@ -175,12 +183,16 @@ ion-toggle::part(track) {
   display: flex;
   flex-direction: column;
   height: 100%;
+  scrollbar-width: thin;
+  height: 30vh;
+  width: 100%;
 }
 
 .messages {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 10px;
+  height: 100%;
 }
 
 .message {
@@ -188,22 +200,36 @@ ion-toggle::part(track) {
   margin: 5px 0;
   border-radius: 5px;
   background-color: #f1f1f1;
-  max-width: 80%;
+  max-width: 100%;
+  width: 100%;
+  display:flex;
+}
+
+.message img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .message.bot {
+  justify-content: flex-start;
   align-self: flex-start;
   background-color: #d1ecf1;
+  width: 80%;
 }
 
 .message.user {
-  align-self: flex-end;
+  justify-self: right;
+  align-self: right;
+  align-content: right;
+  text-align: right;
   background-color: #cce5ff;
+  width: 80%;
 }
 
 .chat-input-container {
   display: flex;
-  align-items: center;
   --background: #f8f8f8; /* Light background color */
   --border-radius: 20px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
@@ -211,16 +237,22 @@ ion-toggle::part(track) {
 }
 
 
+
+
+
 @media screen and (max-width: 800px) {
+  *{
+    transition: all 0.5s;
+  }
   .content{
     padding: 0;
   }
-  .ion-toolbar-contet-right{
-    ion-text{
-      display: none;
-    }
+  .ion-toolbar-content-right ion-text {
+    display: none !important; /* Force hide on small screens */
   }
-
+  .ion-toolbar-content-right ion-button {
+    margin-top: 0;
+  }
   .card-element {
     font-size: small;
   }
@@ -230,16 +262,27 @@ ion-toggle::part(track) {
     margin: 0;
   }
   .card-element:first-of-type {
-    flex: .1;
+    flex: .01;
   }
   .card-element:first-of-type:hover{
-    flex-grow: 1;
+    flex-grow: .1;
   }
+
 
   .header-section{
     display: none;
   }
   .chat-section {
-    height: 55vh;
+    height: 60vh;
+  }
+  .message img {
+    width: 30px;
+    height: 30px;
+  }
+  .message.bot {
+    width: 100%;
+  }
+  .message.user {
+    width: 100%;
   }
 }
