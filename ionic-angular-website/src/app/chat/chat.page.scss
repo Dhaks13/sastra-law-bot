@@ -175,9 +175,60 @@ ion-toggle::part(track) {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin-bottom: 10px;
 }
+
+/* Scrollbar styling for webkit browsers (Chrome, Safari, Brave) */
+.messages-container::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: #333; /* Color of the track */
+  border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #a7a0ff, #00b8d4); /* Gradient color for the thumb */
+  border-radius: 10px;
+  border: 2px solid #333; /* Gives the thumb some space inside the track */
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8a81ff, #00a2c2); /* Gradient color for the thumb on hover */
+}
+
+/* Scrollbar styling for Firefox */
+.messages-container {
+  scrollbar-width: thin;
+  scrollbar-color: linear-gradient(180deg, #a7a0ff, #00b8d4) #333; /* Thumb and track color */
+}
+
+/* Scrollbar styling for IE 10+ */
+.messages-container {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.messages-container::-ms-scrollbar {
+  width: 12px;
+}
+
+.messages-container::-ms-scrollbar-track {
+  background: #333;
+  border-radius: 10px;
+}
+
+.messages-container::-ms-scrollbar-thumb {
+  background: linear-gradient(180deg, #a7a0ff, #00b8d4);
+  border-radius: 10px;
+  border: 2px solid #333;
+}
+
+.messages-container::-ms-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8a81ff, #00a2c2);
+}
+
 
 .chat-container {
   display: flex;
@@ -209,7 +260,28 @@ ion-toggle::part(track) {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+.chat-header {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .message.bot {
@@ -217,17 +289,18 @@ ion-toggle::part(track) {
   align-self: flex-start;
   background-color: #d1ecf1;
   width: 80%;
+  text-align: left;
+  margin: 5px auto 0 10px;
 }
 
 .message.user {
-  justify-self: right;
-  align-self: right;
-  align-content: right;
-  text-align: right;
+  justify-content: flex-end;
+  align-self: flex-end;
+  margin: 5px 10px 0 auto;
   background-color: #cce5ff;
   width: 80%;
+  text-align: right;
 }
-
 .chat-input-container {
   display: flex;
   --background: #f8f8f8; /* Light background color */
@@ -274,6 +347,9 @@ ion-toggle::part(track) {
   }
   .chat-section {
     height: 60vh;
+  }
+  .messages {
+    height: 70vh;
   }
   .message img {
     width: 30px;
