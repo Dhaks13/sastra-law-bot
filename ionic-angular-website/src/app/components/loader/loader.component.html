@@ -1,10 +1,6 @@
 <!-- loader -->
-<div id="loading-page" *ngIf="visible">
-  <br>
-  <br>
-    <div class="loader-container">
-      <img src="../../assets/icon/loader.gif" alt="Loader" />
+<div id="loading-page" *ngIf="isLoading()">
+    <div class="loader">
+      <img src="../../../assets/icon/loading.gif" alt="Loader" />
     </div>   
-  <br>
-  <br>
 </div>

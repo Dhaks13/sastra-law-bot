@@ -13,7 +13,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     IonicModule,
     ChatPageRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [ChatPage]
 })

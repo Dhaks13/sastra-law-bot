@@ -1,10 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ApiService } from '../services/api.service'; // Adjust the path to your API service
+import { ApiService } from '../services/api.service'; 
+import { LoadingService } from '../services/loading.service'; 
+import { CookieService } from 'ngx-cookie-service';
 
 
 declare var grecaptcha: any; // Declare grecaptcha to avoid TypeScript errors
@@ -27,23 +30,32 @@ export class LoginPage {
   signinForm: FormGroup;
   emailExists: boolean = false;
   usernameExists: boolean = false;
+  signupFormErrors: boolean = false;
+  signinFormErrors: boolean = false;
   @ViewChild('recaptchaToken', { static: true }) recaptchaToken!: ElementRef;
   @ViewChild('recaptcha', { static: true }) recaptcha!: ElementRef;
   @ViewChild('recaptchaElement', { static: false }) recaptchaElement!: ElementRef;
   @ViewChild('UsernameInput', { static: true }) UsernameInput!: IonInput;
   
-  constructor(private route: ActivatedRoute,private fb: FormBuilder,private http: HttpClient,private apiService: ApiService) {
+  constructor(private cookieService: CookieService, private loading: LoadingService,private router: Router ,private route: ActivatedRoute,private fb: FormBuilder,private http: HttpClient,private apiService: ApiService) {
+    this.loading.setLoading(true);
+    if(this.cookieService.get('username')!=''){
+      this.router.navigate(['/chat']);
+    }
     this.signinForm = this.fb.group({
       username: ['', Validators.required],
       password: ['',[Validators.required, Validators.minLength(8)]]
     });
     this.signupForm = this.fb.group({
-      username: ['', Validators.required, Validators.minLength(3), Validators.maxLength(20), this.usernameExists],
-      email: ['', [Validators.required, Validators.email], this.emailExists],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]]
     }, { validator: this.passwordMatchValidator });
+    
+    this.loading.setLoading(false);
   }
+
 
   
   
@@ -108,8 +120,10 @@ export class LoginPage {
       callback: (response: any) => {
         if (response.success) {
           console.log('Username is available');
+          this.usernameExists = false;
         } else {
           console.error('Username is already taken');
+          this.usernameExists = true;
         }
       }
     };
@@ -124,8 +138,10 @@ export class LoginPage {
       callback:(response:any)=>{
         if(response.success){
           console.log('Email is available');
+          this.emailExists = false;
         }else{
           console.error('Email is already taken');
+          this.emailExists = true;
         }
       }
     };
@@ -133,12 +149,16 @@ export class LoginPage {
   }
 
   toggleView() {
+    this.loading.setLoading(true);
+    this.signinForm.reset();
+    this.signupForm.reset();
     this.isSignIn = !this.isSignIn;
     this.resetCaptcha();
     setTimeout(() => {
       // Re-initialize reCAPTCHA v3
       this.executeReCaptcha();
     }, 500); // Adjust timeout as needed
+    this.loading.setLoading(false);
   }
   
   resetCaptcha() {
@@ -156,6 +176,7 @@ export class LoginPage {
   }
 
   submitSignupForm() {
+    this.loading.setLoading(true);
     // Handle your form submission here
     // if (this.signupForm.valid) {
     //   const options = {
@@ -172,13 +193,37 @@ export class LoginPage {
 
     //   this.apiService.apiCallHttpPost(options);
     // }
-
+    if(this.signupForm.valid){
+      const options={
+        url:environment.API_URL + '/api/Signup/',
+        data:{
+          username:this.signupForm.value.username,
+          email:this.signupForm.value.email,
+          password:this.signupForm.value.password
+        },
+        callback:(response:any)=>{
+          if(response.success){
+            console.log('Signup successful');
+            this.signupForm.reset();
+            this.cookieService.set('username', response.data['username']);
+            this.router.navigate(['/chat']);
+          }else{
+            console.error('Signup failed');
+            this.signupForm.reset();
+            this.signupFormErrors = true;
+          }
+        }
+      };
+      this.apiService.apiCallHttpPost(options);
+    }
+    this.loading.setLoading(false);
   }
 
 
   submitSignInForm() {
+    this.loading.setLoading(true);
     // Handle your form submission here
-    if (this.signinForm.valid) {
+    //if (this.signinForm.valid) {
       // const options = {
       //   url: environment.API_URL + '/authentication/validate_recaptcha/',
       //   data: {
@@ -192,7 +237,30 @@ export class LoginPage {
       // };
 
       // this.apiService.apiCallHttpPost(options);
+    //}
+    if (this.signinForm.valid) {
+      const options = {
+        url: environment.API_URL + '/api/Login/',
+        data: {
+          username: this.signinForm.value.username,
+          password: this.signinForm.value.password
+        },
+        callback: (response: any) => {
+          if (response.success) {
+            console.log('Login successful');
+            this.signinForm.reset();
+            this.cookieService.set('username', response.data[0]['username']);
+            this.router.navigate(['/chat']);
+          } else {
+            console.error('Login failed');
+            this.signinForm.reset();
+            this.signinFormErrors = true;
+          }
+        }
+      };
+      this.apiService.apiCallHttpPost(options);
     }
+    this.loading.setLoading(false);
   }
 
   customCounterFormatter(inputLength: number, maxLength: number) {

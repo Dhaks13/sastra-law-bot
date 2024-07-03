@@ -47,7 +47,8 @@
             </ion-input>
           <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
-          <ion-button expand="block" [disabled]="!signinForm.valid ||buttonDisabled">Sign In</ion-button>
+          <ion-button expand="block" (click)="submitSignInForm()" [disabled]="!signinForm.valid ||buttonDisabled">Sign In</ion-button>
+          <ion-text color="danger" *ngIf="signinFormErrors">Incorrect Username/Password</ion-text>
         </form>
         <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()" name="sign-up" [formGroup]="signupForm">
           <!-- Sign Up Form -->
@@ -111,7 +112,8 @@
              </div>
              <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
-          <ion-button expand="block" (click)="submitSignupForm()" [disabled]="!signupForm.valid || buttonDisabled">Sign Up</ion-button>
+          <ion-button expand="block" (click)="submitSignupForm()" [disabled]="!signupForm.valid || buttonDisabled || usernameExists || emailExists">Sign Up</ion-button>
+          <ion-text color="danger" *ngIf="signupFormErrors">Unable to SignUp check ur connection!</ion-text>
         </form>
         <div class="alt-text-container">
         <ion-text color="light" class="alt-text" *ngIf="isSignIn">Don't have an account?</ion-text>

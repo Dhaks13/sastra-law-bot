@@ -14,7 +14,7 @@ import { LoginPage } from './login.page';
     IonicModule,
     LoginPageRoutingModule,
     ReactiveFormsModule,
-    NgxCaptchaModule // Include NgxCaptchaModule here
+    NgxCaptchaModule,
   ],
   declarations: [LoginPage]
 })

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-chat',
@@ -11,13 +14,29 @@ export class ChatPage {
   selectedFile: File | null = null;
   userMessage: string = '';
   messages: { content: string; sender: string }[] = [];
+  username: string = 'Guest';
+  constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router) {
+    this.loading.setLoading(true);
+    this.username = this.getUsernameFromCookie();
+    if(this.getUsernameFromCookie()==''){
+        this.router.navigate(['/home']);
+    }
+    this.loading.setLoading(false);
+  }
 
-  constructor(private router: Router) {
-    this.decisionResult = '';
+  ngOnInit() {
+    this.loading.setLoading(true);
+    this.username = this.getUsernameFromCookie();
+    this.loading.setLoading(false);
+  }  
+
+  getUsernameFromCookie() {
+    return this.cookieService.get('username');
   }
 
   logout() {
     // Implement logout functionality
+    this.cookieService.delete('username');
     this.router.navigate(['/home']);
   }
 

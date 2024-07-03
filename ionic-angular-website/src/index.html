@@ -20,25 +20,6 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <!-- Load reCAPTCHA script -->
   <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul"></script>
-  <script>
-    function onReCaptchaSuccess(token) {
-      // Handle the successful generation of the token
-      console.log('ReCaptcha Token: ', token);
-    }
-  
-    grecaptcha.ready(function() {
-      grecaptcha.execute('6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul', { action: 'signup' }).then(function(token) {
-        // Add the token to a hidden input field or directly use it in your submission
-        document.getElementById('g-recaptcha-response').value = token;
-      });
-    });
-    grecaptcha.ready(function() {
-      grecaptcha.execute('6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul', { action: 'login' }).then(function(token) {
-        // Add the token to a hidden input field or directly use it in your submission
-        document.getElementById('g-recaptcha-response').value = token;
-      });
-    });
-  </script>
   </head>
 
 <body>

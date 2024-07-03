@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Storage } from '@ionic/storage';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SharedModule } from './shared/shared.module';
 
 // Import RecaptchaModule and RecaptchaFormsModule
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
@@ -21,6 +22,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     FormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    SharedModule,
     LoginPageModule,
     RecaptchaModule,
     HttpClientModule,
