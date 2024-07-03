@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonInput } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 declare var grecaptcha: any; // Declare grecaptcha to avoid TypeScript errors
 
@@ -18,14 +19,28 @@ export class LoginPage {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   Username = '';
-  
+  signupForm: FormGroup;
+
   @ViewChild('recaptchaElement', { static: false }) recaptchaElement!: ElementRef;
   @ViewChild('UsernameInput', { static: true }) UsernameInput!: IonInput;
 
 
   
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,private fb: FormBuilder) {
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validator: this.passwordMatchValidator });
+  }
   
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.isSignIn = params['isSignIn'] === 'true';

@@ -15,7 +15,7 @@
       <div class="form">
         <h2 *ngIf="isSignIn">Sign In</h2>
         <h2 *ngIf="!isSignIn">Sign Up</h2>
-        <form *ngIf="isSignIn" (ngSubmit)="submitSignupForm()">
+        <form *ngIf="isSignIn" (ngSubmit)="submitSignupForm()" name="sign-in" >
           <!-- Sign In Form -->
           <ion-input 
           fill="outline"
@@ -26,6 +26,7 @@
             #UsernameInput
             required
             autofocus
+            [ngModelOptions]="{standalone: true}"
             />
             <ion-input  
             fill="outline" 
@@ -40,6 +41,7 @@
             ngModel
             password
             required 
+            [ngModelOptions]="{standalone: true}"
             >
               <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-input>
@@ -47,7 +49,7 @@
           <div class="recaptcha-container" #recaptchaElement></div>
           <ion-button expand="block" [disabled]="buttonDisabled">Sign In</ion-button>
         </form>
-        <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()">
+        <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()" name="sign-up" [formGroup]="signupForm">
           <!-- Sign Up Form -->
             <ion-input 
             fill="outline"
@@ -64,6 +66,7 @@
               #UsernameInput
               required
               autofocus
+              [ngModelOptions]="{standalone: true}"
               />
             <ion-input  
             fill="outline" 
@@ -75,39 +78,37 @@
             ngModel 
             email
             required
+            [ngModelOptions]="{standalone: true}"
              />
-            <ion-input  
-            fill="outline" 
-            labelPlacement="floating" 
-            label="Password*" 
-            type="password" 
-            #signUpPasswordInput  
-            clear-on-edit="false" 
-            type="{{ showPassword ? 'text' : 'password' }}" 
-            minlength="8"  
-            error-text="Password must contain atleast 8 charecters"
-            ngModel
-            password
-            required 
-            >
-              <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+             <ion-input
+             formControlName="password"
+             type="{{ showPassword ? 'text' : 'password' }}"
+             clear-on-edit="false"
+             required
+             fill="outline" labelPlacement="floating" 
+             label="Password*"  
+             minlength="8"
+             >
+             <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-input>
-            <ion-input 
-            ngModel 
-            confirmpassword 
-            required 
-            minlength="8" 
-            clear-on-edit="false"  
-            error-text="Password didn't match" 
-            fill="outline" labelPlacement="floating" 
-            label="Confirm Password*" 
-            type="password" 
-            #confirmPasswordInput 
-            type="{{ showConfirmPassword ? 'text' : 'password' }}" 
-            >            
-              <ion-icon name="{{ showConfirmPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="toggleConfirmPasswordVisibility()"></ion-icon>  
-            </ion-input>
-          <!-- reCAPTCHA widget -->
+            <div *ngIf="signupForm.controls['password'].touched && signupForm.controls['password'].invalid">
+              <ion-text color="danger">Password must be at least 8 characters long.</ion-text>
+            </div>
+             <ion-input
+               formControlName="confirmPassword"
+               type="{{ showConfirmPassword ? 'text' : 'password' }}"
+               clear-on-edit="false"
+               fill="outline" labelPlacement="floating" 
+               label="Confirm Password*"    
+               required
+               minlength="8"
+               >
+               <ion-icon name="{{ showConfirmPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="toggleConfirmPasswordVisibility()"></ion-icon>  
+              </ion-input>
+              <div *ngIf="signupForm.controls['confirmPassword'].touched && signupForm.errors?.['passwordMismatch']">
+               <ion-text color="danger">Passwords do not match.</ion-text>
+             </div>
+             <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
           <ion-button expand="block" [disabled]="buttonDisabled">Sign Up</ion-button>
         </form>

@@ -92,9 +92,10 @@ ion-content {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  height: 100vh; /* Full viewport height */
+  height: 100%; /* Full viewport height */
   background-color: #f0f0f0; /* Background color */
   color: black; /* Text color */
+  margin-top: 25px;
 }
 
 /* Content image styles */
