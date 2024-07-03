@@ -26,6 +26,12 @@
     margin: 15px;
   }
 
+  ion-text{
+    padding: 10px;
+    margin: -15px 15px 5px;
+    font-size: medium; 
+  }
+
 ion-button {
   margin-top: 20px;
   --border-radius: 20px; /* Rounded corners for button */

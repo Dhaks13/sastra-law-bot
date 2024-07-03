@@ -15,9 +15,10 @@
       <div class="form">
         <h2 *ngIf="isSignIn">Sign In</h2>
         <h2 *ngIf="!isSignIn">Sign Up</h2>
-        <form *ngIf="isSignIn" (ngSubmit)="submitSignupForm()" name="sign-in" >
+        <form *ngIf="isSignIn" (ngSubmit)="submitSignInForm()" name="sign-in" [formGroup]="signinForm">
           <!-- Sign In Form -->
           <ion-input 
+          formControlName="username"
           fill="outline"
            labelPlacement="floating"
             label="Username/Email*" 
@@ -26,9 +27,9 @@
             #UsernameInput
             required
             autofocus
-            [ngModelOptions]="{standalone: true}"
             />
             <ion-input  
+            formControlName="password"
             fill="outline" 
             labelPlacement="floating" 
             label="Password*" 
@@ -41,23 +42,23 @@
             ngModel
             password
             required 
-            [ngModelOptions]="{standalone: true}"
             >
               <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-input>
           <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
-          <ion-button expand="block" [disabled]="buttonDisabled">Sign In</ion-button>
+          <ion-button expand="block" [disabled]="!signinForm.valid ||buttonDisabled">Sign In</ion-button>
         </form>
         <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()" name="sign-up" [formGroup]="signupForm">
           <!-- Sign Up Form -->
             <ion-input 
+            formControlName="username"
             fill="outline"
              labelPlacement="floating"
               label="Username*" 
               type="text"
               [value]="Username"
-              (ionInput)="onInput($event)"
+              (ionInput)="onInput_username($event)"
               [counter]="true"
               maxlength="35"
               minlength="4"
@@ -66,20 +67,22 @@
               #UsernameInput
               required
               autofocus
-              [ngModelOptions]="{standalone: true}"
               />
+              <ion-text *ngIf="signupForm.controls['username'].touched && signupForm.controls['username'].invalid && !usernameExists" color="danger">invalid Username(alteast 4 characters)  </ion-text>
+              <ion-text *ngIf="signupForm.controls['username'].touched && usernameExists" color="danger">Username Already Exists.</ion-text>
             <ion-input  
+            formControlName="email"
             fill="outline" 
             labelPlacement="floating" 
+            (ionInput)="onInput_email($event)"
             label="Email*" 
             type="email"
-            helperText="Enter a valid email"
-            error-text="Invalid email"
             ngModel 
             email
             required
-            [ngModelOptions]="{standalone: true}"
              />
+             <ion-text *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid && !emailExists" color="danger">invalid Email</ion-text>
+             <ion-text *ngIf="signupForm.controls['email'].touched && emailExists" color="danger">Email Already Exists</ion-text>
              <ion-input
              formControlName="password"
              type="{{ showPassword ? 'text' : 'password' }}"
@@ -91,10 +94,8 @@
              >
              <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-input>
-            <div *ngIf="signupForm.controls['password'].touched && signupForm.controls['password'].invalid">
-              <ion-text color="danger">Password must be at least 8 characters long.</ion-text>
-            </div>
-             <ion-input
+            <ion-text *ngIf="signupForm.controls['password'].touched && signupForm.controls['password'].invalid" color="danger">Password must be at least 8 characters long.</ion-text>
+            <ion-input
                formControlName="confirmPassword"
                type="{{ showConfirmPassword ? 'text' : 'password' }}"
                clear-on-edit="false"
@@ -110,7 +111,7 @@
              </div>
              <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
-          <ion-button expand="block" [disabled]="buttonDisabled">Sign Up</ion-button>
+          <ion-button expand="block" (click)="submitSignupForm()" [disabled]="!signupForm.valid || buttonDisabled">Sign Up</ion-button>
         </form>
         <div class="alt-text-container">
         <ion-text color="light" class="alt-text" *ngIf="isSignIn">Don't have an account?</ion-text>

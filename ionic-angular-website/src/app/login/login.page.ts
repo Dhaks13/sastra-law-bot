@@ -2,6 +2,10 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonInput } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { ApiService } from '../services/api.service'; // Adjust the path to your API service
+
 
 declare var grecaptcha: any; // Declare grecaptcha to avoid TypeScript errors
 
@@ -20,20 +24,28 @@ export class LoginPage {
   showConfirmPassword: boolean = false;
   Username = '';
   signupForm: FormGroup;
-
+  signinForm: FormGroup;
+  emailExists: boolean = false;
+  usernameExists: boolean = false;
+  @ViewChild('recaptchaToken', { static: true }) recaptchaToken!: ElementRef;
+  @ViewChild('recaptcha', { static: true }) recaptcha!: ElementRef;
   @ViewChild('recaptchaElement', { static: false }) recaptchaElement!: ElementRef;
   @ViewChild('UsernameInput', { static: true }) UsernameInput!: IonInput;
-
-
   
-  constructor(private route: ActivatedRoute,private fb: FormBuilder) {
-    this.signupForm = this.fb.group({
+  constructor(private route: ActivatedRoute,private fb: FormBuilder,private http: HttpClient,private apiService: ApiService) {
+    this.signinForm = this.fb.group({
       username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      password: ['',[Validators.required, Validators.minLength(8)]]
+    });
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required, Validators.minLength(3), Validators.maxLength(20), this.usernameExists],
+      email: ['', [Validators.required, Validators.email], this.emailExists],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]]
     }, { validator: this.passwordMatchValidator });
   }
+
+  
   
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
@@ -79,12 +91,7 @@ export class LoginPage {
     }
   }
   
-  submitForm() {
-    // Handle your form submission here
-    console.log('Form submitted');
-  }
-  
-  onInput(ev: any) {
+  onInput_username(ev: any) {
   const value = ev.target!.value;
   
   // Removes non alphanumeric characters
@@ -94,7 +101,35 @@ export class LoginPage {
      * Update both the state variable and
      * the component to keep them in sync.
      */
-    this.UsernameInput.value = this.Username = filteredValue;
+    this.signupForm.patchValue({ username: filteredValue });
+    const options = {
+      url: environment.API_URL + '/api/ValidateUsername/',
+      data: { username: filteredValue },
+      callback: (response: any) => {
+        if (response.success) {
+          console.log('Username is available');
+        } else {
+          console.error('Username is already taken');
+        }
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
+  }
+
+  onInput_email(ev: any) {
+    const value = ev.target!.value;
+    const options={
+      url:environment.API_URL + '/api/ValidateEmail/',
+      data:{email:value},
+      callback:(response:any)=>{
+        if(response.success){
+          console.log('Email is available');
+        }else{
+          console.error('Email is already taken');
+        }
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
   }
 
   toggleView() {
@@ -119,11 +154,45 @@ export class LoginPage {
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
-  
 
   submitSignupForm() {
     // Handle your form submission here
-    console.log('Sign Up form submitted');
+    // if (this.signupForm.valid) {
+    //   const options = {
+    //     url: environment.API_URL + '/authentication/validate_recaptcha/',
+    //     data: {
+    //       token: this.signupForm.value.recaptchaToken,
+    //       action: 'signup'
+    //     },
+    //     callback: (response: any) => {
+    //       console.log('Signup response:', response);
+    //       // Handle signup response here, e.g., show success message, redirect, etc.
+    //     }
+    //   };
+
+    //   this.apiService.apiCallHttpPost(options);
+    // }
+
+  }
+
+
+  submitSignInForm() {
+    // Handle your form submission here
+    if (this.signinForm.valid) {
+      // const options = {
+      //   url: environment.API_URL + '/authentication/validate_recaptcha/',
+      //   data: {
+      //     token: this.signinForm.value.recaptchaToken,
+      //     action: 'login'
+      //   },
+      //   callback: (response: any) => {
+      //     console.log('Signin response:', response);
+      //     // Handle signup response here, e.g., show success message, redirect, etc.
+      //   }
+      // };
+
+      // this.apiService.apiCallHttpPost(options);
+    }
   }
 
   customCounterFormatter(inputLength: number, maxLength: number) {

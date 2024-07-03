@@ -9,7 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Storage } from '@ionic/storage';
-import { ReqInterceptor } from './req-interceptor'; // Provide the correct path to ReqInterceptor
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 // Import RecaptchaModule and RecaptchaFormsModule
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
@@ -23,6 +23,9 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     AppRoutingModule,
     LoginPageModule,
     RecaptchaModule,
+    HttpClientModule,
+    FormsModule,
+    RecaptchaModule,
     RecaptchaFormsModule // Import RecaptchaFormsModule here
   ],
   providers: [
@@ -31,7 +34,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     CookieService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ReqInterceptor,
+      useClass: AuthInterceptor,
       multi: true,
     },
   ],

@@ -6,5 +6,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('userlist', views.UserModel_list, name='UserModel_list'),
+    path('ValidateUsername/', views.ValidateUsername.as_view(), name='ValidateUsername'),
+    path('ValidateEmail/', views.ValidateEmail.as_view(), name='ValidateEmail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
