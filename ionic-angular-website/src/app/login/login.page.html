@@ -1,9 +1,9 @@
 <ion-header id="ion-header">
   <ion-toolbar class="ion-top-bar">
     <div id="ion-toolbar-content">
-      <img src="../../assets/icon/ViHaRa_icon.png" alt="ViHaRa Icon" />
+      <img src="../../assets/icon/shvard_logo.jpg" alt="SHVARD Icon" />
       <ion-title>
-        ViHaRa ChatBot
+        SHVARD ChatBot
       </ion-title>
     </div>
   </ion-toolbar>
@@ -47,7 +47,7 @@
             </ion-input>
           <!-- reCAPTCHA widget -->
           <div class="recaptcha-container" #recaptchaElement></div>
-          <ion-button expand="block" (click)="submitSignInForm()" [disabled]="!signinForm.valid ||buttonDisabled">Sign In</ion-button>
+          <ion-button expand="block" (click)="submitSignInForm()" >Sign In</ion-button>
           <ion-text color="danger" *ngIf="signinFormErrors">Incorrect Username/Password</ion-text>
         </form>
         <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()" name="sign-up" [formGroup]="signupForm">
@@ -128,7 +128,7 @@
 </ion-content>
 <ion-footer collapse="fade">
   <ion-toolbar>
-      <span> © 2023 ViHaRa ChatBot <sub>All Rights Reserved </sub></span>
+      <span> © 2023 SHVARD ChatBot <sub>All Rights Reserved </sub></span>
     <br>
     <div id="credits">
     <span>Devloped by: <sub>Rajaraman S | Harinarayanan S G | Vignesh Ram Narayanan | Sharon Joe | Dhakshin A V</sub> </span>
