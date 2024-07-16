@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+#to store the User Details in the database
 class UserModel(models.Model):
     username = models.CharField(primary_key=True,max_length=100)
     email = models.EmailField()
