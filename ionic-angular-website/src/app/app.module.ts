@@ -28,7 +28,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     HttpClientModule,
     FormsModule,
     RecaptchaModule,
-    RecaptchaFormsModule // Import RecaptchaFormsModule here
+    RecaptchaFormsModule,
+    IonicModule.forRoot({}) // Import RecaptchaFormsModule here
   ],
   providers: [
     Storage,

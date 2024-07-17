@@ -20,5 +20,5 @@ model = PeftModel.from_pretrained(model, "Dantewada/LegalGPT-ft")
 
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
 
-model.save_pretrained("/content/drive/MyDrive/LegalGPT-ft-Model") #path to save Model
-tokenizer.save_pretrained("/content/drive/MyDrive/LegalGPT-ft-Tokenizer") #path to save Tokenizer
+model.save_pretrained("/models/LegalGPT-ft-Model") #path to save Model
+tokenizer.save_pretrained("/models/LegalGPT-ft-Tokenizer") #path to save Tokenizer
