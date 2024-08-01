@@ -40,7 +40,8 @@
 }
 
 .element-content{
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
 }
 
@@ -162,10 +163,13 @@ ion-item {
   max-width: 80%;
 
   ion-input{
+    position: absolute;
+    bottom: 0;
+    width: 50%;
     justify-content: baseline;
     align-self: baseline;
     align-items: baseline;
-    justify-self: baseline;
+    margin-bottom: 20px;
   }
 }
 
@@ -232,9 +236,7 @@ ion-item {
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   scrollbar-width: thin;
-  height: 30vh;
   width: 100%;
 }
 
@@ -242,7 +244,7 @@ ion-item {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 10px;
-  height: 100%;
+  max-height: 36vh;
 }
 
 .message {
@@ -284,7 +286,7 @@ ion-item {
 }
 
 .message.bot {
-  justify-content: flex-start;
+  justify-content: flex-start; 
   align-self: flex-start;
   background-color: #d1ecf1;
   width: 80%;
@@ -346,9 +348,14 @@ ion-item {
   }
   .chat-section {
     height: 60vh;
+
+    ion-input{
+      width: 35%;
+    
+    }
   }
   .messages {
-    height: 70vh;
+    max-height: 55vh;
   }
   .message img {
     width: 30px;

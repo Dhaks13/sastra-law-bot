@@ -63,29 +63,28 @@
             <img src="assets/icon/tata_logo.jpg" alt="Tata Icon" />
           </div> 
           <br>
-          <!-- Chat Window Section -->
           <div class="chat-section">
             <h3><b>Family Case ChatBot</b></h3>
             <div class="chat-container">
               <div class="messages">
-                <!-- Example message -->
-                <div class="message bot">
-                  <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
-                  <p>LegalGPT is Ready ! How can I assist you today?</p>
-                </div>
-                <!-- <div class="message user">
-                  <p>Can you help me with a legal question?</p>
-                  <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
-                </div> -->
-                <!-- Add more messages here dynamically -->
+                <div *ngFor="let message of messages">
+                  <div *ngIf="message.type === 'bot'" class="message bot">
+                    <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
+                    <p>{{message.text}}</p>
+                  </div>
+                  <div *ngIf="message.type === 'user'" class="message user">
+                    <p>{{message.text}}</p>
+                    <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
+                  </div>
               </div>          
-            </div>     
-              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws"placeholder="Type your message..." [(ngModel)]="userMessage">
+              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()">
                 <ion-button fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
                   <ion-icon slot="icon-only" name="send" aria-hidden="true"></ion-icon>
                 </ion-button>
               </ion-input>
           </div>
+        </div>
+      </div>
         </div>
       </div>
       

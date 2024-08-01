@@ -11,4 +11,5 @@ urlpatterns = [
     path('Signup/', views.Signup.as_view(), name='Signup'),
     path('Login/', views.Login.as_view(), name='Login'),
     path('pdfextract/', views.pdfextract.as_view(), name='pdfextract'),
+    path('chattext/', views.chattext.as_view(), name='chattext'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

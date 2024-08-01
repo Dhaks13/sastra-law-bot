@@ -16,7 +16,7 @@ export class ChatPage {
   decisionResult: string = '';
   selectedFile: File | null = null;
   userMessage: string = '';
-  messages: { content: string; sender: string }[] = [];
+  messages: { text: string; type: string }[] = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
   username: string = 'Guest';
   constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
@@ -103,18 +103,20 @@ export class ChatPage {
   }
   
 
+  
   sendMessage() {
     if (this.userMessage.trim()) {
-      this.messages.push({ content: this.userMessage, sender: 'user' });
+      this.messages.push({ type: 'user' , text: this.userMessage });
+      
       this.userMessage = '';
-      this.getBotResponse();
-    }
-  }
 
-  getBotResponse() {
-    // Simulate a bot response
-    setTimeout(() => {
-      this.messages.push({ content: 'This is a simulated bot response.', sender: 'bot' });
-    }, 1000);
+      // Scroll to the bottom of the chat
+      setTimeout(() => {
+        const chatContainer = document.querySelector('.chat-container');
+        if (chatContainer) {
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+      }, 0);
+    }
   }
 }

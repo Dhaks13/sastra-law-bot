@@ -76,3 +76,10 @@ class pdfextract(APIView):
             if data:
                 return JsonResponse({"success": True, 'data': data})
             return JsonResponse({"success": False, 'data': data})
+        
+class chattext(APIView):
+    def post(self, request, *args, **kwargs):
+        if request.method == "POST":
+            received_data = request.data
+            text = received_data['text']
+            
