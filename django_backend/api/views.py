@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from django.db import connection
 from .serializers import *
+import pdfplumber
 
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
@@ -62,3 +63,16 @@ class Login(APIView):
         if data:
             return JsonResponse({"success": True, 'data': data})
         return JsonResponse({"success": False, 'data': data})
+    
+class pdfextract(APIView):
+    def post(self, request, *args, **kwargs):
+        if request.method == "POST":
+            received_data = request.data
+            pdf = pdfplumber.open(received_data['file'])
+            data = ''
+            for page in pdf.pages:
+                data += page.extract_text()
+            print(data)
+            if data:
+                return JsonResponse({"success": True, 'data': data})
+            return JsonResponse({"success": False, 'data': data})

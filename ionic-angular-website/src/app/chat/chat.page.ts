@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LoadingService } from '../services/loading.service';
+import { environment } from 'src/environments/environment';
+import { ApiService } from '../services/api.service'; 
+
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +18,7 @@ export class ChatPage {
   userMessage: string = '';
   messages: { content: string; sender: string }[] = [];
   username: string = 'Guest';
-  constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router) {
+  constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
     if(this.getUsernameFromCookie()==''){
@@ -70,11 +73,35 @@ export class ChatPage {
     this.selectedFile = null;
   }
 
-
-  processFile() {
-    // Implement file processing logic and set the decisionResult
-    this.decisionResult = "APPEAL(S) ALLOWED with a probability score of 86.03%";
+  async processFile() {
+    this.loading.setLoading(true);
+  
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+  
+      const options = {
+        url: environment.API_URL + '/api/pdfextract/',
+        data: formData,
+        callback: (response: any) => {
+          this.loading.setLoading(false);
+          if (response.success) {
+            console.log('File read successful');
+            this.decisionResult = response.extractedText || 'Text extraction succeeded, but no text returned.';
+          } else {
+            console.error('File read failed');
+            this.decisionResult = 'File read failed.';
+          }
+        }
+      };
+  
+      this.apiService.apiCallHttpPost(options);
+    } else {
+      this.decisionResult = 'No file selected.';
+      this.loading.setLoading(false);
+    }
   }
+  
 
   sendMessage() {
     if (this.userMessage.trim()) {

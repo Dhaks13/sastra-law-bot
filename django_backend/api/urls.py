@@ -10,4 +10,5 @@ urlpatterns = [
     path('ValidateEmail/', views.ValidateEmail.as_view(), name='ValidateEmail'),
     path('Signup/', views.Signup.as_view(), name='Signup'),
     path('Login/', views.Login.as_view(), name='Login'),
+    path('pdfextract/', views.pdfextract.as_view(), name='pdfextract'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
