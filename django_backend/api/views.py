@@ -72,14 +72,32 @@ class pdfextract(APIView):
             data = ''
             for page in pdf.pages:
                 data += page.extract_text()
-            print(data)
+            # decision = get_decision(data)
             if data:
                 return JsonResponse({"success": True, 'data': data})
             return JsonResponse({"success": False, 'data': data})
         
-class chattext(APIView):
+class lawbot(APIView):
     def post(self, request, *args, **kwargs):
+        response = ''
         if request.method == "POST":
             received_data = request.data
             text = received_data['text']
-            
+            # response = chatbot(text)
+            if response:
+                return JsonResponse({"success": True, 'data': response})
+            else:
+                return JsonResponse({"success": False, 'data': response})
+        
+class RecSys(APIView):
+    def post(self, request, *args, **kwargs):
+        response = ''
+        if request.method == "POST":
+            received_data = request.data
+            text = received_data['text']
+            # response = chatbot(text)
+            if response:
+                return JsonResponse({"success": True, 'data': response})
+            else:
+                return JsonResponse({"success": False, 'data': response})
+        

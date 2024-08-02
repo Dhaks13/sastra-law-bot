@@ -6,12 +6,13 @@ import { LoadingService } from '../services/loading.service';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../services/api.service'; 
 
+
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.page.html',
-  styleUrls: ['./chat.page.scss'],
+  selector: 'app-rs',
+  templateUrl: './rs.page.html',
+  styleUrls: ['./rs.page.scss'],
 })
-export class ChatPage {
+export class RSPage {
   userMessage: string = '';
   messages: { text: string; type: string }[] = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
   username: string = 'Guest';
@@ -40,14 +41,12 @@ export class ChatPage {
     this.router.navigate(['/home']);
   }
 
-  
   dash(){
     this.loading.setLoading(true);
     console.log('dashboard');
     this.router.navigate(['/dashboard']);
     this.loading.setLoading(false);
   }
-  
   
   dss(){
     this.loading.setLoading(true);
@@ -57,21 +56,23 @@ export class ChatPage {
     this.loading.setLoading(false);
   }
   
-  rs(){
+  lkb(){
     this.loading.setLoading(true);
     this.messages = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
-    console.log('rs');
-    this.router.navigate(['/rs']);
+    console.log('chat');
+    this.router.navigate(['/chat']);
     this.loading.setLoading(false);
   }
+  
 
+  
   sendMessage() {
     this.loading.setLoading(true);
     if (this.userMessage.trim()) {
       const text = this.userMessage;
       this.messages.push({ type: 'user' , text: this.userMessage });
       const options = {
-        url: environment.API_URL + '/api/lawbot/',
+        url: environment.API_URL + '/api/RecSys/',
         data: {text: text},
         callback: (response: any) => {
           this.loading.setLoading(false);
@@ -99,4 +100,5 @@ export class ChatPage {
     }
     this.loading.setLoading(false);
   }
+
 }
