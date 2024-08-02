@@ -23,8 +23,8 @@
               <ion-button expand="block" fill="outline" (click)="dash()">
                 Dashboard
               </ion-button>
-              <ion-button expand="block" fill="outline" (click)="dss()">
-                Decision support system
+              <ion-button expand="block" fill="outline" (click)="lkb()">
+                Law knowledge bot
               </ion-button>
               <ion-button expand="block" fill="outline" (click)="rs()">
                 Recommendation system
@@ -37,34 +37,44 @@
           </div> 
         </div>
       </div>
-    
       <div class="card-element">
         <div class="element-content">  
-            <div class="chat-section">
-            <h1><b>Law ChatBot</b></h1>
-            <div class="chat-container">
-              <div class="messages">
-                <div *ngFor="let message of messages">
-                  <div *ngIf="message.type === 'bot'" class="message bot">
-                    <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
-                    <p>{{message.text}}</p>
-                  </div>
-                  <div *ngIf="message.type === 'user'" class="message user">
-                    <p>{{message.text}}</p>
-                    <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
-                  </div>
-              </div>          
-              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()">
-                <ion-button fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
-                  <ion-icon slot="icon-only" name="send" aria-hidden="true"></ion-icon>
-                </ion-button>
-              </ion-input>
+          <div class="upload-section">
+            <h1><b>Decision Support System</b></h1>
+            <h4>Upload your Law PDF here and click on Process</h4>
+            <div
+            class="drop-zone"
+            (drop)="onDrop($event)"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            >
+            <input
+              type="file"
+              accept=".pdf"
+              (change)="onFileSelected($event)"
+              hidden
+              #fileInput
+            />
+            <div class="drop-zone-text">
+              Drag and drop files here<br />
+              Limit 200MB per file<br />
+              <ion-button type="button" ion-button (click)="fileInput.click()">Browse files</ion-button>
+            </div>
+          </div>
+          <div *ngIf="selectedFile" style="display: inline;">
+            <ion-icon name="document-outline"></ion-icon>
+            {{ selectedFile.name }} ({{ selectedFile.size / 1024 | number: '1.0-2' }} KB)
+            <ion-icon name="trash-outline" (click)="removeFile()"></ion-icon>
+          </div>
+          <br>
+          <ion-button (click)="processFile()">Process</ion-button>
+          </div>
+          <div class="result-section" *ngIf="decisionResult">
+            <p>The possible decision of the uploaded family dispute file will be</p>
+            <p><strong>{{decisionResult}}</strong></p>
           </div>
         </div>
       </div>
-        </div>
-      </div>
-      
     </div>
   </div>
 </ion-content>

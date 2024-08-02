@@ -15,7 +15,7 @@
       <div class="form">
         <h2 *ngIf="isSignIn">Sign In</h2>
         <h2 *ngIf="!isSignIn">Sign Up</h2>
-        <form *ngIf="isSignIn" (ngSubmit)="submitSignInForm()" name="sign-in" [formGroup]="signinForm">
+        <form *ngIf="isSignIn" (ngSubmit)="submitSignInForm()" (keydown.enter)="onEnter_in()" name="sign-in" [formGroup]="signinForm">
           <!-- Sign In Form -->
           <ion-input 
           formControlName="username"
@@ -50,7 +50,7 @@
           <ion-button expand="block" (click)="submitSignInForm()" >Sign In</ion-button>
           <ion-text color="danger" *ngIf="signinFormErrors">Incorrect Username/Password</ion-text>
         </form>
-        <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()" name="sign-up" [formGroup]="signupForm">
+        <form *ngIf="!isSignIn" (ngSubmit)="submitSignupForm()" (keydown.enter)="onEnter_up()" name="sign-up" [formGroup]="signupForm">
           <!-- Sign Up Form -->
             <ion-input 
             formControlName="username"

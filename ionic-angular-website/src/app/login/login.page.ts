@@ -40,7 +40,7 @@ export class LoginPage {
   constructor(private cookieService: CookieService, private loading: LoadingService,private router: Router ,private route: ActivatedRoute,private fb: FormBuilder,private http: HttpClient,private apiService: ApiService) {
     this.loading.setLoading(true);
     if(this.cookieService.get('username')!=''){
-      this.router.navigate(['/chat']);
+      this.router.navigate(['/dashboard']);
     }
     this.signinForm = this.fb.group({
       username: ['', Validators.required],
@@ -206,7 +206,7 @@ export class LoginPage {
             console.log('Signup successful');
             this.signupForm.reset();
             this.cookieService.set('username', response.data['username']);
-            this.router.navigate(['/chat']);
+            this.router.navigate(['/dashboard']);
           }else{
             console.error('Signup failed');
             this.signupForm.reset();
@@ -250,7 +250,7 @@ export class LoginPage {
             console.log('Login successful');
             this.signinForm.reset();
             this.cookieService.set('username', response.data[0]['username']);
-            this.router.navigate(['/chat']);
+            this.router.navigate(['/dashboard']);
           } else {
             console.error('Login failed');
             this.signinForm.reset();
@@ -265,5 +265,25 @@ export class LoginPage {
 
   customCounterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength} characters remaining`;
+  }
+
+  onEnter_in() {
+    if(this.signinForm.valid && !this.buttonDisabled && !this.usernameExists && !this.emailExists){
+      console.log('Signing In...');
+      this.submitSignInForm();
+    }
+    else{
+      console.log('Invalid Form input');
+    }
+  }
+
+  onEnter_up() {
+    if(this.signupForm.valid && !this.buttonDisabled && !this.usernameExists && !this.emailExists){
+      console.log('Signing Up...');
+      this.submitSignupForm();
+    }
+    else{
+      console.log('Invalid Form input');
+    }
   }
 }

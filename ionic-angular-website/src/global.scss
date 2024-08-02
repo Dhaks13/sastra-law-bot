@@ -60,8 +60,8 @@
 
 /* Toolbar images styles */
 #ion-toolbar-content img {
-  width: 55px;
-  height: 65px;
+  width: 75px;
+  height: 70px;
   margin: 10px;
 }
 
@@ -155,7 +155,7 @@ ion-button {
 
 ion-button:hover {
   border-radius: 20px;
-  color: #252525;
+  color: #ffffffaf;
   box-shadow: 0 0 5px skyblue;
   transition: background-color 0.3s ease; /* Smooth background color transition */
 }
