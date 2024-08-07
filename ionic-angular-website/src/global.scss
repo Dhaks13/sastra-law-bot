@@ -183,6 +183,8 @@ ion-button:hover {
 }
 
 ion-footer {
+  position: fixed;
+  bottom: 0;
   ion-toolbar {
     background-color: #f8f8f8; /* Light background color */
     padding: 10px; /* Padding inside the toolbar */
