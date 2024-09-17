@@ -9,7 +9,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   apiCallHttpPost(options: any) {
-    const { url, data, callback } = options;
+    const { url, data, callback, errorcall } = options;
 
     this.http.post(url, data).subscribe(
       (response: any) => {
@@ -19,9 +19,10 @@ export class ApiService {
       },
       (error: any) => {
         console.error('Error:', error);
+        errorcall(error);
         // Optionally handle error
       }
-    );
+    );  
   }
 
 }

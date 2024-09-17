@@ -37,31 +37,31 @@
           </div> 
         </div>
       </div>
-    
       <div class="card-element">
-        <div class="element-content">  
-            <div class="chat-section">
+        <div class="element-content">
+          <app-loader *ngIf="loading"></app-loader>
+          <div class="chat-section">
             <h1><b>Law ChatBot</b></h1>
             <div class="chat-container">
               <div class="messages">
                 <div *ngFor="let message of messages">
                   <div *ngIf="message.type === 'bot'" class="message bot">
                     <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
-                    <p>{{message.text}}</p>
+                    <pre>{{message.text}}</pre>
                   </div>
                   <div *ngIf="message.type === 'user'" class="message user">
-                    <p>{{message.text}}</p>
+                    <pre>{{message.text}}</pre>
                     <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
                   </div>
               </div>          
-              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()">
-                <ion-button fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
+              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" [disabled]="isloading">
+                <ion-button [disabled]="isloading" fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
                   <ion-icon slot="icon-only" name="send" aria-hidden="true"></ion-icon>
                 </ion-button>
               </ion-input>
+            </div>
           </div>
         </div>
-      </div>
         </div>
       </div>
       

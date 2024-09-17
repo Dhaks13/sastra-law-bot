@@ -15,7 +15,8 @@ export class ChatPage {
   userMessage: string = '';
   messages: { text: string; type: string }[] = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
   username: string = 'Guest';
-  constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
+  isloading: boolean = false;
+  constructor(public loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
     if(this.getUsernameFromCookie()==''){
@@ -66,29 +67,40 @@ export class ChatPage {
   }
 
   sendMessage() {
-    this.loading.setLoading(true);
+    this.loading.setLoading(true); // Show the loader
+    this.isloading = true;
     if (this.userMessage.trim()) {
       const text = this.userMessage;
-      this.messages.push({ type: 'user' , text: this.userMessage });
+      this.messages.push({ type: 'user', text: this.userMessage });
+  
       const options = {
         url: environment.API_URL + '/api/lawbot/',
-        data: {text: text},
+        data: { text: text },
         callback: (response: any) => {
-          this.loading.setLoading(false);
+          this.loading.setLoading(false); // Hide the loader
+          this.isloading = false;
           if (response.success) {
-            console.log('Response Generated Successfully');
-            this.messages.push({ type: 'bot', text: response});
+            console.log('Chatbot Response:', response.data.response); 
+            this.messages.push({ type: 'bot', text: response.data.response });
           } else {
             console.error('Chatbot Offline');
             this.messages.push({ type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
           }
+        },
+        errorcall: (error: any) => {
+          this.loading.setLoading(false); // Hide the loader
+          this.isloading = false;
+          console.error('Server Error:', error);
+          this.messages.push({ type: 'bot', text: 'Sorry, there was an error processing your request. Please try again later.' });
         }
       };
   
+      // Make the API call
       this.apiService.apiCallHttpPost(options);
-    
+  
+      // Clear the user message input
       this.userMessage = '';
-
+  
       // Scroll to the bottom of the chat
       setTimeout(() => {
         const chatContainer = document.querySelector('.chat-container');
@@ -96,7 +108,9 @@ export class ChatPage {
           chatContainer.scrollTop = chatContainer.scrollHeight;
         }
       }, 0);
+    } else {
+      this.loading.setLoading(false); // Hide the loader if no message is provided
     }
-    this.loading.setLoading(false);
   }
+  
 }

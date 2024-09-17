@@ -185,19 +185,13 @@ ion-button:hover {
 ion-footer {
   position: fixed;
   bottom: 0;
+  font-size: 12.5px; /* Font size for the footer text */
+  height: 50px;
   ion-toolbar {
     background-color: #f8f8f8; /* Light background color */
-    padding: 10px; /* Padding inside the toolbar */
     align-self: center;
     justify-content: center;
     text-align: center; /* Center align content */
-    .footer-content {
-      font-size: 14px; /* Font size for the footer text */
-      
-      sub {
-        font-size: 80%; /* Adjust font size for subscripts */
-      }
-    }
   }
 }
 

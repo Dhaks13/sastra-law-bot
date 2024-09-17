@@ -83,7 +83,7 @@ export class DSSPage {
         callback: (response: any) => {
           if (response.success) {
             console.log('File read successful');
-            this.decisionResult = response.data || 'Text extraction succeeded, but no text returned.';
+            this.decisionResult = response.data.response || 'Text extraction succeeded, but no text returned.';
           } else {
             console.error('File read failed');
             this.decisionResult = 'File read failed.';

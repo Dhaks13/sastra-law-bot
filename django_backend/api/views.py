@@ -4,6 +4,25 @@ from rest_framework.views import APIView
 from django.db import connection
 from .serializers import *
 import pdfplumber
+import requests
+from django.http import JsonResponse
+
+def get_ml_response(input_text):
+    response = requests.post('http://172.16.13.81:5000/generate', json={'input': input_text})
+    data = response.json()
+    return data
+
+
+def get_ml_response1(input_text):
+    response = requests.post('http://172.16.13.69:5001/generate', json={'input': input_text})
+    data = response.json()
+    return data
+
+def get_dss_response(input_text):
+    response = requests.post('http://172.16.13.69:5002/generate',json={'input': input_text})
+    data = response.json()
+    print(data)
+    return data
 
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
@@ -12,6 +31,14 @@ def dictfetchall(cursor):
         dict(zip(columns, row))
         for row in cursor.fetchall()
     ]
+
+def extract_text_from_pdf(pdf_path):
+    text = ""
+    with pdfplumber.open(pdf_path) as pdf:
+        for page in pdf.pages:
+            text += page.extract_text() + "\n"
+    return text
+
 
 class ValidateUsername(APIView):    
     def post(self, request, *args, **kwargs):
@@ -68,13 +95,10 @@ class pdfextract(APIView):
     def post(self, request, *args, **kwargs):
         if request.method == "POST":
             received_data = request.data
-            pdf = pdfplumber.open(received_data['file'])
-            data = ''
-            for page in pdf.pages:
-                data += page.extract_text()
-            # decision = get_decision(data)
+            data = extract_text_from_pdf(received_data['file'])
             if data:
-                return JsonResponse({"success": True, 'data': data})
+                res = get_dss_response(data)
+                return JsonResponse({"success": True, 'data': res})
             return JsonResponse({"success": False, 'data': data})
         
 class lawbot(APIView):
@@ -83,7 +107,7 @@ class lawbot(APIView):
         if request.method == "POST":
             received_data = request.data
             text = received_data['text']
-            # response = chatbot(text)
+            response = get_ml_response(text)
             if response:
                 return JsonResponse({"success": True, 'data': response})
             else:
@@ -95,9 +119,8 @@ class RecSys(APIView):
         if request.method == "POST":
             received_data = request.data
             text = received_data['text']
-            # response = chatbot(text)
+            response = get_ml_response1(text)
             if response:
                 return JsonResponse({"success": True, 'data': response})
             else:
                 return JsonResponse({"success": False, 'data': response})
-        
