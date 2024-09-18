@@ -46,6 +46,7 @@ export class DSSPage {
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
     }
+    this.decisionResult = '';
   }
 
   onDrop(event: DragEvent) {
@@ -69,6 +70,7 @@ export class DSSPage {
 
   removeFile() {
     this.selectedFile = null;
+    this.decisionResult = '';
   }
 
   async processFile() {
