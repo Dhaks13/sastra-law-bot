@@ -13,7 +13,7 @@ import { ApiService } from '../services/api.service';
 })
 export class ChatPage {
   userMessage: string = '';
-  messages: { text: string; type: string }[] = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
+  messages: { text: string; type: string }[] = [{ text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
   username: string = 'Guest';
   isloading: boolean = false;
   constructor(public loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
@@ -52,7 +52,7 @@ export class ChatPage {
   
   dss(){
     this.loading.setLoading(true);
-    this.messages = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
+    this.messages = [{ text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
     console.log('dss');
     this.router.navigate(['/dss']);
     this.loading.setLoading(false);
@@ -60,7 +60,7 @@ export class ChatPage {
   
   rs(){
     this.loading.setLoading(true);
-    this.messages = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
+    this.messages = [{ text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
     console.log('rs');
     this.router.navigate(['/rs']);
     this.loading.setLoading(false);

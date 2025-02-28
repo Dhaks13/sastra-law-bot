@@ -14,7 +14,7 @@ import { ApiService } from '../services/api.service';
 })
 export class RSPage {
   userMessage: string = '';
-  messages: { text: string; type: string }[] = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
+  messages: { text: string; type: string }[] = [{ text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
   username: string = 'Guest';
   isloading: boolean = false;
   constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
@@ -51,7 +51,7 @@ export class RSPage {
   
   dss(){
     this.loading.setLoading(true);
-    this.messages = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
+    this.messages = [{ text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
     console.log('dss');
     this.router.navigate(['/dss']);
     this.loading.setLoading(false);
@@ -59,7 +59,7 @@ export class RSPage {
   
   lkb(){
     this.loading.setLoading(true);
-    this.messages = [{ text: 'Hello, I am LegalGPT. How can I assist you today?', type: 'bot' }];
+    this.messages = [{ text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
     console.log('chat');
     this.router.navigate(['/chat']);
     this.loading.setLoading(false);

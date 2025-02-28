@@ -14,12 +14,12 @@ def get_ml_response(input_text):
 
 
 def get_ml_response1(input_text):
-    response = requests.post('http://172.16.13.69:5001/generate', json={'input': input_text})
+    response = requests.post('http://172.16.13.81:5001/generate', json={'input': input_text})
     data = response.json()
     return data
 
 def get_dss_response(input_text):
-    response = requests.post('http://172.16.13.69:5002/generate',json={'input': input_text})
+    response = requests.post('http://172.16.13.81:5002/generate',json={'input': input_text})
     data = response.json()
     print(data)
     return data
