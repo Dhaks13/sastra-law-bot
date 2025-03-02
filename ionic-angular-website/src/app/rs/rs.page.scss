@@ -105,17 +105,17 @@ margin-bottom: 15px; /* Space between ion-items */
 }
 
 .ion-button-group{
-display: block;
-margin: 0;
-padding: 0;
-width: 50%;
-ion-button{
-  margin-top: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
   width: 100%;
-}
-transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-
-}
+  ion-button{
+    margin-top: 0;
+    width: 100%;
+  }
+  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
+  
+  }
 
 
 /* Adjust button size for small screens */
@@ -161,25 +161,22 @@ transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 
   #ion-button-group {
     margin-top: 10px;
+    width: 200px;
     display:grid;
-    justify-self: center;
     gap: 10px;
   }
 
 .chat-section {
   display: block;
-  justify-content: space-between;
-  align-items: center;
   margin: 0 auto;
   border-radius: 5px;
-  padding: 10px;
   width: 75%;
   height: 100%;
 
   ion-input{
     position: absolute;
     bottom: 0;
-    width: 55%;
+    width: 50%;
     text-align: start;
     justify-content: baseline;
     align-self: baseline;
@@ -335,6 +332,11 @@ transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 }
 
 
+@media screen and (max-width: 1000px){
+  .chat-section{
+    margin: 0px;
+  }
+}
 
 
 
@@ -376,19 +378,20 @@ transition: transform 0.5s ease-in-out; /* Smooth grow transition */
   }
   
   .ion-button-group{
-  ion-button{
-    margin: 0;
-    font-size: 10px;
-    align-content: center;
-    padding: 2px;
-    width: 85%;
+    ion-button{
+      margin: 0px 0px 0px 10px;
+      font-size: 10px;
+      align-content: center;
+      padding: 2px;
+      width: 80%;
+    }
+    ion-button:hover{
+      transform: scale(1.1);
+    }
+    padding: 1px;
+    transition: transform 0.5s ease-in-out; /* Smooth grow transition */
   }
-  ion-button:hover{
-    transform: scale(1.1);
-  }
-  padding: 1px;
-  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-  }
+    
   
 
   .header-section{

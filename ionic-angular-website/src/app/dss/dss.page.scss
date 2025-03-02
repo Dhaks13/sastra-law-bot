@@ -108,7 +108,7 @@ margin-bottom: 15px; /* Space between ion-items */
 display: block;
 margin: 0;
 padding: 0;
-width: 50%;
+width: 100%;
 ion-button{
   margin-top: 0;
   width: 100%;
@@ -120,7 +120,6 @@ transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 
 /* Adjust button size for small screens */
 .button-group-container{
-
   ion-button {
     margin-top: 20px;
     --background: #222222;
@@ -161,10 +160,22 @@ transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 
   #ion-button-group {
     margin-top: 10px;
+    width: 200px;
     display:grid;
-    justify-self: center;
     gap: 10px;
   }
+
+  .result-section pre {
+    white-space: pre-wrap;     /* Ensures text wraps to the next line */
+    word-wrap: break-word;     /* Breaks long words if needed */
+  }
+
+  .result-section {
+    max-width: 600px;
+    overflow-y: scroll;
+    scrollbar-width: 0px;
+  }
+  
 
 @media screen and (max-width: 800px) {
   *{
@@ -205,12 +216,11 @@ transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 
 .ion-button-group{
   ion-button{
-    margin: 0;
-    margin-left: -15%;
+    margin: 0px 0px 0px 10px;
     font-size: 10px;
     align-content: center;
     padding: 2px;
-    width: 85%;
+    width: 80%;
   }
   ion-button:hover{
     transform: scale(1.1);

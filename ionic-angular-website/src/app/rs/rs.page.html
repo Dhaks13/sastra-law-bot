@@ -3,7 +3,7 @@
     <div id="ion-toolbar-content">
       <img src="../../assets/icon/shvard_logo.jpg" alt="SHVARD Icon" />
       <ion-title>
-        SHVARD ChatBot
+        SHVARD
       </ion-title>
       <div class="ion-toolbar-content-right">
         <ion-text color="light">Welcome, {{username}}</ion-text>
@@ -42,7 +42,7 @@
         <div class="element-content">
           <app-loader *ngIf="isloading"></app-loader>
             <div class="chat-section">
-            <h1><b>Recommendation System</b></h1>
+            <h1><b>Family & Property Dispute Bot</b></h1>
             <div class="chat-container">
               <div class="messages">
                 <div *ngFor="let message of messages">
@@ -55,7 +55,7 @@
                     <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
                   </div>
               </div>          
-              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question? on Indian Family Laws" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" [disabled]="isloading">
+              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question on Family & Property Dispute" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" [disabled]="isloading">
                 <ion-button [disabled]="isloading" fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
                   <ion-icon slot="icon-only" name="send" aria-hidden="true"></ion-icon>
                 </ion-button>

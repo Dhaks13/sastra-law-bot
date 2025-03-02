@@ -3,7 +3,7 @@
     <div id="ion-toolbar-content">
       <img src="../../assets/icon/shvard_logo.jpg" alt="SHVARD Icon" />
       <ion-title>
-        SHVARD ChatBot
+        SHVARD
       </ion-title>
       <div class="ion-toolbar-content-right">
         <ion-text color="light">Welcome, {{username}}</ion-text>
@@ -27,7 +27,7 @@
                 Law knowledge bot
               </ion-button>
               <ion-button expand="block" fill="outline" (click)="rs()">
-                Recommendation system
+                Property & Family Dispute Bot
               </ion-button> 
             </div>
           </div>
@@ -67,11 +67,12 @@
             <ion-icon name="trash-outline" (click)="removeFile()"></ion-icon>
           </div>
           <br>
-          <ion-button (click)="processFile()">Process</ion-button>
+          <ion-button [disabled]="isloading" (click)="processFile()">Process</ion-button>
           </div>
+          <app-loader *ngIf="loading"></app-loader>
+
           <div class="result-section" *ngIf="decisionResult">
-            <p>The possible decision of the uploaded family dispute file will be</p>
-            <p><strong>{{decisionResult}}</strong></p>
+            <pre><strong>{{decisionResult}}</strong></pre>
           </div>
         </div>
       </div>

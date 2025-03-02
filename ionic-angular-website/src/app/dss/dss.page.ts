@@ -16,7 +16,8 @@ export class DSSPage {
   decisionResult: string = '';
   selectedFile: File | null = null;
   username: string = 'Guest';
-  constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
+  public isloading: boolean = false;
+  constructor(public loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
     if(this.getUsernameFromCookie()==''){
@@ -75,6 +76,8 @@ export class DSSPage {
 
   async processFile() {
     this.loading.setLoading(true);
+    this.isloading = true;
+    this.decisionResult = 'loading.....';
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
@@ -96,8 +99,10 @@ export class DSSPage {
       this.apiService.apiCallHttpPost(options);
     } else {
       this.decisionResult = 'No file selected.';
+
     }
     this.loading.setLoading(false);
+    this.isloading = false;
   }
 
   
