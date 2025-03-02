@@ -29,15 +29,15 @@ background-color: #ffffff;
 border-radius: 5px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
 transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-flex: 5;
+flex: .5;
 padding: 10px;
 gap: 15px;
 transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 }
 
-.card-element:first-of-type{
+.card-element:last-of-type{
 background-color: rgba(255, 255, 255, 0.25);
-flex: .5;
+flex: 5;
 }
 
 .element-content{
@@ -280,6 +280,9 @@ margin-bottom: 15px; /* Space between ion-items */
     white-space: pre-wrap;
     overflow-x: auto;
     margin: 0 10px;
+    cursor: text;
+    -webkit-user-select: text;
+    user-select: text;
   }
 }
 
@@ -317,16 +320,31 @@ margin-bottom: 15px; /* Space between ion-items */
   background-color: #d1ecf1;
   width: 80%;
   text-align: left;
-  margin: 5px auto 0 10px;
+  margin: 5px 0 0 10px;
+  padding:10px;
+  gap: 2px;
+  display: flex;
 }
 
 .message.user {
   justify-content: flex-end;
   align-self: flex-end;
-  margin: 5px 10px 0 auto;
+  margin: 5px 10px 0 0;
   background-color: #cce5ff;
   width: 80%;
   text-align: right;
+  padding:10px;
+  gap: 2px;
+  display: flex;
+}
+.message-text{
+  margin: 1px 2px;
+  align-content: right;
+  align-items: end;
+  align-self: end;
+  ion-icon{
+    margin: 0 auto;
+  }
 }
 .chat-input-container {
   display: flex;
