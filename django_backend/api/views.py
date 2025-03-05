@@ -18,11 +18,11 @@ def get_ml_response1(input_text):
     data = response.json()
     return data
 
-def get_dss_response(input_text):
-    response = requests.post('http://172.16.13.81:5002/generate',json={'input': input_text})
-    data = response.json()
-    print(data)
-    return data
+# def get_dss_response(input_text):
+#     response = requests.post('http://172.16.13.81:5002/generate',json={'input': input_text})
+#     data = response.json()
+#     print(data)
+#     return data
 
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
@@ -84,22 +84,21 @@ class Login(APIView):
         password = received_data.get('password', '')
 
         cursor = connection.cursor()
-        cursor.execute(
-            f"CALL login_user('{username}', '{password}');")
+        cursor.execute(f"CALL login_user('{username}', '{password}');")
         data = dictfetchall(cursor)
         if data:
             return JsonResponse({"success": True, 'data': data})
         return JsonResponse({"success": False, 'data': data})
     
-class pdfextract(APIView):
-    def post(self, request, *args, **kwargs):
-        if request.method == "POST":
-            received_data = request.data
-            data = extract_text_from_pdf(received_data['file'])
-            if data:
-                res = get_dss_response(data)
-                return JsonResponse({"success": True, 'data': res})
-            return JsonResponse({"success": False, 'data': data})
+# class pdfextract(APIView):
+#     def post(self, request, *args, **kwargs):
+#         if request.method == "POST":
+#             received_data = request.data
+#             data = extract_text_from_pdf(received_data['file'])
+#             if data:
+#                 res = get_dss_response(data)
+#                 return JsonResponse({"success": True, 'data': res})
+#             return JsonResponse({"success": False, 'data': data})
         
 class lawbot(APIView):
     def post(self, request, *args, **kwargs):
@@ -108,6 +107,13 @@ class lawbot(APIView):
             received_data = request.data
             text = received_data['text']
             response = get_ml_response(text)
+            data = {'gpt_id':0,'user_message':text, 'gpt_message':response['response']}
+            serializer = ChatHistorySerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
+
             if response:
                 return JsonResponse({"success": True, 'data': response})
             else:
@@ -120,6 +126,12 @@ class RecSys(APIView):
             received_data = request.data
             text = received_data['text']
             response = get_ml_response1(text)
+            data = {'gpt_id':1,'user_message':text, 'gpt_message':response['response']}
+            serializer = ChatHistorySerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
             if response:
                 return JsonResponse({"success": True, 'data': response})
             else:
