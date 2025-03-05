@@ -23,37 +23,54 @@
               <ion-button expand="block" fill="outline" (click)="dash()">
                 Dashboard
               </ion-button>
-              <ion-button expand="block" fill="outline" (click)="dss()">
+              <!-- <ion-button expand="block" fill="outline" (click)="dss()">
                 Decision support system
-              </ion-button>
+              </ion-button> -->
               <ion-button expand="block" fill="outline" (click)="lkb()">
                 Law knowledge bot
               </ion-button>
             </div>
           </div>
+          <br>
+          <br>
           <div class="header-section">
             <img src="assets/icon/sastra_logo.jpg" alt="Sastra Icon" />
             <img src="assets/icon/tata_logo.jpg" alt="Tata Icon" />
           </div> 
         </div>
       </div>
-    
+      <!-- <div class="card-element">
+        <div class="element-content">  
+          <div class="chat-history">
+
+          </div>
+        </div>
+      </div> -->
       <div class="card-element">
-        <div class="element-content">
+        <div class="element-content element-content-chat">
           <app-loader *ngIf="isloading"></app-loader>
             <div class="chat-section">
             <h1><b>Family & Property Dispute Bot</b></h1>
             <div class="chat-container">
               <div class="messages">
-                <div *ngFor="let message of messages">
+                <div *ngFor="let message of messages; index as i">
                   <div *ngIf="message.type === 'bot'" class="message bot">
                     <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
-                    <pre>{{message.text}}</pre>
+                    <div class="bot_message{{i}}" class="message-text">
+                      <pre>{{message.text}}</pre>
+                      <br>
+                      <ion-icon [id]="'bot_message' + i" (click)="copyText('bot_message' + i)" name="copy"></ion-icon>
+                    </div>
                   </div>
                   <div *ngIf="message.type === 'user'" class="message user">
-                    <pre>{{message.text}}</pre>
-                    <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
+                      <div class="user_message{{i}}" class="message-text">
+                        <pre>{{message.text}}</pre>
+                        <br>
+                        <ion-icon [id]="'user_message' + i" (click)="copyText('user_message' + i)" name="copy"></ion-icon>
+                      </div>
+                      <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
                   </div>
+              </div>
               </div>          
               <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question on Family & Property Dispute" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" [disabled]="isloading">
                 <ion-button [disabled]="isloading" fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
@@ -67,5 +84,4 @@
       </div>
       
     </div>
-  </div>
 </ion-content>

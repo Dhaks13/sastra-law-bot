@@ -21,7 +21,7 @@ export class LoginPage {
   isSignIn: boolean = true;
   captchaResolved: boolean = false;
   buttonDisabled: boolean = true; // Initially disable button
-  siteKey: string = '6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul'; // Replace with your reCAPTCHA v3 site key
+  siteKey: string = '6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul'; // reCAPTCHA v3 site key
   password: string = '';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;

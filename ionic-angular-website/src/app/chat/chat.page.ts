@@ -112,5 +112,31 @@ export class ChatPage {
       this.loading.setLoading(false); // Hide the loader if no message is provided
     }
   }
+
+  copyText(id: string): void {
+    const range = document.createRange();
+    const elements = document.getElementsByClassName(id);
+  
+    if (elements.length > 0) {
+      const element = elements[0];
+      if (element.nodeType === Node.ELEMENT_NODE) {
+        range.selectNode(element);
+        const selection = window.getSelection();
+  
+        if (selection) {
+          selection.removeAllRanges(); // clear current selection
+          selection.addRange(range); // to select text
+        }
+  
+        document.execCommand("copy"); // perform the copy action
+        if (selection) {
+          selection.removeAllRanges(); // deselect
+        }
+      }
+    } else {
+      console.error('Element with class', id, 'not found.');
+    }
+  }
+  
   
 }
