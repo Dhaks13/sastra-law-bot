@@ -167,6 +167,10 @@ margin-bottom: 15px; /* Space between ion-items */
     gap: 10px;
   }
 
+  .element-content-chat{
+    width: 75%;
+    height: 100%;
+  }
 
   .chat-section {
     display: block;
@@ -267,13 +271,13 @@ margin-bottom: 15px; /* Space between ion-items */
 }
 
 .message {
-  padding: 10px;
+  padding: 5px;
   margin: 5px 0;
   border-radius: 5px;
   background-color: #f1f1f1;
   max-width: 100%;
   width: 100%;
-  display:flex;
+  display: flex;
   pre{
     width: 100%;
     word-wrap:break-word;
@@ -298,12 +302,6 @@ margin-bottom: 15px; /* Space between ion-items */
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ccc;
-}
-
-
-.element-content-chat{
-  width: 75%;
-  height: 100%;
 }
 
 .chat-messages {
@@ -361,7 +359,17 @@ margin-bottom: 15px; /* Space between ion-items */
 }
 
 
+.message-icons{
+  margin: 0 2px;
+  padding: 2px;
+  display: flex;
+  width: 20%;
 
+  
+  ion-icon:hover{
+    transform: scale(1.2);
+  }
+}
 
 
 @media screen and (max-width: 800px) {
