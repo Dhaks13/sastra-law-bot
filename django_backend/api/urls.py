@@ -13,4 +13,5 @@ urlpatterns = [
     # path('pdfextract/', views.pdfextract.as_view(), name='pdfextract'),
     path('lawbot/', views.lawbot.as_view(), name='lawbot'),
     path('RecSys/', views.RecSys.as_view(), name='RecSys'),
+    path('vote/', views.vote.as_view(), name='vote'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

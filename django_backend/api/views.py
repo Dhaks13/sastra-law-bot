@@ -105,34 +105,52 @@ class lawbot(APIView):
         response = ''
         if request.method == "POST":
             received_data = request.data
+            user = received_data['user']
             text = received_data['text']
             response = get_ml_response(text)
-            data = {'gpt_id':0,'user_message':text, 'gpt_message':response['response']}
-            serializer = ChatHistorySerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                print(serializer.errors)
 
             if response:
-                return JsonResponse({"success": True, 'data': response})
+                data = {'gpt_id': 0, 'user_id': user, 'user_message': text, 'gpt_message': response['response'], 'title_id': 1}
+                serializer = ChatHistorySerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    chat_id = serializer.instance.chat_id  # Correct way to get the ID
+                else:
+                    print(serializer.errors)
+                    return JsonResponse({"success": True,  'data': {'response': response['response'], 'id': -1}})
+
+                return JsonResponse({"success": True, 'data': {'response': response['response'], 'id': chat_id}})
             else:
-                return JsonResponse({"success": False, 'data': response})
+                return JsonResponse({"success": False, 'data': response['response']})
         
 class RecSys(APIView):
     def post(self, request, *args, **kwargs):
         response = ''
         if request.method == "POST":
             received_data = request.data
+            user = received_data['user']
             text = received_data['text']
             response = get_ml_response1(text)
-            data = {'gpt_id':1,'user_message':text, 'gpt_message':response['response']}
-            serializer = ChatHistorySerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                print(serializer.errors)
             if response:
-                return JsonResponse({"success": True, 'data': response})
+                data = {'gpt_id': 1, 'user_id': user, 'user_message': text, 'gpt_message': response['response'], 'title_id': 2}
+                serializer = ChatHistorySerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    chat_id = serializer.instance.chat_id  # Correct way to get the ID
+                else:
+                    print(serializer.errors)
+                    return JsonResponse({"success": True,  'data': {'response': response['response'], 'id': -1}})
+                return JsonResponse({"success": True, 'data': {'response': response['response'], 'id': chat_id}})
             else:
-                return JsonResponse({"success": False, 'data': response})
+                return JsonResponse({"success": False, 'data': response['response']})
+        
+
+class vote(APIView):
+    def post(self, request, *args, **kwargs):
+        if request.method == "POST":
+            received_data = request.data
+            id = received_data['id']
+            vote = received_data['value']
+            cursor = connection.cursor()
+            cursor.execute(f"CALL vote({id}, {vote});")
+            return JsonResponse({"success": True})

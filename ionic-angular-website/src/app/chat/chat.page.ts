@@ -12,10 +12,12 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage {
+
   userMessage: string = '';
-  messages: { text: string; type: string }[] = [{ text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
+  messages: { id: number, text: string; type: string }[] = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
   username: string = 'Guest';
   isloading: boolean = false;
+  voted: Array<boolean> = [];
   constructor(public loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
@@ -52,7 +54,6 @@ export class ChatPage {
   
   dss(){
     this.loading.setLoading(true);
-    this.messages = [{ text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
     console.log('dss');
     this.router.navigate(['/dss']);
     this.loading.setLoading(false);
@@ -60,7 +61,7 @@ export class ChatPage {
   
   rs(){
     this.loading.setLoading(true);
-    this.messages = [{ text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
+    this.messages = [{ id:-1,text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
     console.log('rs');
     this.router.navigate(['/rs']);
     this.loading.setLoading(false);
@@ -71,27 +72,28 @@ export class ChatPage {
     this.isloading = true;
     if (this.userMessage.trim()) {
       const text = this.userMessage;
-      this.messages.push({ type: 'user', text: this.userMessage });
+      this.messages.push({id:-1, type: 'user', text: this.userMessage });
   
       const options = {
         url: environment.API_URL + '/api/lawbot/',
-        data: { text: text },
+        data: { user: this.username, text: text },
         callback: (response: any) => {
           this.loading.setLoading(false); // Hide the loader
           this.isloading = false;
           if (response.success) {
             console.log('Chatbot Response:', response.data.response); 
-            this.messages.push({ type: 'bot', text: response.data.response });
+            this.messages.push({id:response.data.id, type: 'bot', text: response.data.response });
+            this.voted.push(false);
           } else {
             console.error('Chatbot Offline');
-            this.messages.push({ type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
+            this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
           }
         },
         errorcall: (error: any) => {
           this.loading.setLoading(false); // Hide the loader
           this.isloading = false;
           console.error('Server Error:', error);
-          this.messages.push({ type: 'bot', text: 'Sorry, there was an error processing your request. Please try again later.' });
+          this.messages.push({id:-1, type: 'bot', text: 'Sorry, there was an error processing your request. Please try again later.' });
         }
       };
   
@@ -136,6 +138,30 @@ export class ChatPage {
     } else {
       console.error('Element with class', id, 'not found.');
     }
+  }
+
+  vote(i:number, id: number, value: number) {
+    const options = {
+      url: environment.API_URL + '/api/vote/',
+      data: { user: this.username, id: id, value: value },
+      callback: (response: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        if (response.success) {
+          console.log('Vote sucess:', id, value);
+          this.voted[i] = true;
+        } else {
+          console.error('Vote Error');  
+        }
+      },
+      errorcall: (error: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        console.error('Server Error:', error);
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
+    
   }
   
   

@@ -53,16 +53,25 @@
             <h1><b>Law ChatBot</b></h1>
             <div class="chat-container">
               <div class="messages">
+                <div *ngIf="messages[0].type === 'bot'" class="message bot">
+                  <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
+                  <div class="bot_messages{{0}}" class="message-text"><pre>{{messages[0].text}}</pre></div>
+                </div>
+                
                 <div *ngFor="let message of messages; index as i">
-                  <div *ngIf="message.type === 'bot'" class="message bot">
+                  <div *ngIf="i > 0 && message.type === 'bot'" class="message bot">
                     <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
                     <div class="bot_message{{i}}" class="message-text">
                       <pre>{{message.text}}</pre>
                       <br>
-                      <ion-icon [id]="'bot_message' + i" (click)="copyText('bot_message' + i)" name="copy"></ion-icon>
+                      <div class='message-icons'>
+                        <ion-icon [id]="'bot_message' + i" (click)="copyText('bot_message' + i)" name="copy"></ion-icon>
+                        <ion-icon *ngIf='!voted[i] && message.id!=-1' (click)="vote(i,message.id,1)" name="thumbs-up-outline"></ion-icon>
+                        <ion-icon *ngIf='!voted[i] && message.id!=-1' (click)="vote(i,message.id,-1)" name="thumbs-down-outline"></ion-icon>
+                        </div>
                     </div>
                   </div>
-                  <div *ngIf="message.type === 'user'" class="message user">
+                  <div *ngIf="i > 0 && message.type === 'user'" class="message user">
                       <div class="user_message{{i}}" class="message-text">
                         <pre>{{message.text}}</pre>
                         <br>

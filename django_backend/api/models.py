@@ -44,9 +44,32 @@ class UserModel(models.Model):
 #     class Meta:
 #         db_table = 'MessageModel'
 
-class ChatHistory(models.Model):
-    gpt_id = models.IntegerField(primary_key=True)
-    user_message = models.TextField()
-    gpt_message = models.TextField()
+class Title(models.Model):
+    title_id = models.AutoField(primary_key=True, auto_created=True)
+    title = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        db_table = 'Title'
+
+
+class ChatHistory(models.Model):
+    chat_id = models.AutoField(primary_key=True, auto_created=True)
+    gpt_id = models.IntegerField()
+    user_id = models.ForeignKey(UserModel, db_column="username", on_delete=models.CASCADE,default='')
+    title_id = models.ForeignKey(Title, db_column="title_id", on_delete=models.CASCADE,default=0)
+    user_message = models.TextField()
+    gpt_message = models.TextField()
+    vote = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.chat_id
+    
+    class Meta:
+        db_table = 'ChatHistory'
