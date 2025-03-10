@@ -12,7 +12,7 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage {
-
+  chats: any = [];
   userMessage: string = '';
   messages: { id: number, text: string; type: string }[] = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
   username: string = 'Guest';
@@ -30,8 +30,34 @@ export class ChatPage {
   ngOnInit() {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
+    if(this.getUsernameFromCookie()==''){
+        this.router.navigate(['/home']);
+    }
+    this.getChats(this.username, 0);
     this.loading.setLoading(false);
   }  
+
+  getChats(user: string, chat_type: number) {
+    this.loading.setLoading(true);
+    const options = {
+      url: environment.API_URL + '/api/getchats/',
+      data: { user: user, chat_type: chat_type },
+      callback: (response: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        if (response.success) {
+          this.chats = response.data;
+        }
+      },
+      errorcall: (error: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        console.error('Server Error:', error);
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
+  }
+
 
   getUsernameFromCookie() {
     return this.cookieService.get('username');
@@ -164,5 +190,30 @@ export class ChatPage {
     
   }
   
-  
+  loadChat(id: number){
+    this.loading.setLoading(true); // Show the loader
+    this.isloading = true;
+    if (id==-1){
+      this.messages = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
+      this.loading.setLoading(false); // Hide the loader
+      this.isloading = false;
+      return;
+    }
+    const options = {
+      url: environment.API_URL + '/api/loadchat/',
+      data: { user: this.username, id: id },
+      callback: (response: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        if (response.success) {
+          for (let i = 0; i < response.data.length; i++) {
+            this.messages.push({id:response.data[i].id, type: 'user', text: response.data[i].user_text });
+            this.messages.push({id:response.data[i].id, type: 'bot', text: response.data[i].bot_text });
+            (response.data.voted==true)?this.voted.push(true):this.voted.push(false);
+          }
+        }
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
+  }
 }
