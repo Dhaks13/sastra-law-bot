@@ -40,17 +40,17 @@
         </div>
       </div>
       <div class="card-element">
-          <div class="chat-history">
-            <ion-card class="history" (click)="loadChat(-1)">
-                <ion-card-title>New Chat</ion-card-title>
+        <div class="chat-history">
+          <ion-card class="history" (click)="loadChat(-1)">
+            <p>New Chat</p>
+          </ion-card>
+          <div *ngFor="let chat of chats">
+            <ion-card class="history" (click)="loadChat(chat.title_id)">
+              <p>{{chat.title}}</p>
             </ion-card>
-            <div *ngfor="let chat of chats">
-              <ion-card class="history" (click)="loadChat(chat.id)">
-                  <ion-card-title>{{chat.title}}</ion-card-title>
-              </ion-card>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
       <div class="card-element">
         <div class="element-content element-content-chat">

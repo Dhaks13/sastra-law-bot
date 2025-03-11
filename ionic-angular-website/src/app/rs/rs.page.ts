@@ -13,9 +13,11 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./rs.page.scss'],
 })
 export class RSPage {
+  title_id: number = -1;
+  chats: any = [];
   userMessage: string = '';
-  messages: { id: number, text: string; type: string }[] = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
-  voted: Array<boolean> = []; 
+  messages: { id: number, text: string; type: string }[] = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+  voted: Array<boolean> = [true]; 
   username: string = 'Guest';
   isloading: boolean = false;
   constructor(private loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
@@ -28,10 +30,38 @@ export class RSPage {
   }
 
   ngOnInit() {
+
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
+    if(this.getUsernameFromCookie()==''){
+        this.router.navigate(['/home']);
+    }
+    this.getChats(this.username, 1);
     this.loading.setLoading(false);
   }  
+
+  getChats(user: string, chat_type: number) {
+    this.loading.setLoading(true);
+    const options = {
+      url: environment.API_URL + '/api/getchats/',
+      data: { user: user, chat_type: chat_type },
+      callback: (response: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        if (response.success) {
+          this.chats = response.data;
+        }
+      },
+      errorcall: (error: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        console.error('Server Error:', error);
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
+  }
+
+
 
   getUsernameFromCookie() {
     return this.cookieService.get('username');
@@ -76,7 +106,7 @@ export class RSPage {
   
       const options = {
         url: environment.API_URL + '/api/RecSys/',
-        data: { user: this.username, text: text },
+        data: { user: this.username, text: text, title_id: this.title_id },
         callback: (response: any) => {
           this.loading.setLoading(false); // Hide the loader
           this.isloading = false;
@@ -84,6 +114,8 @@ export class RSPage {
             console.log('Chatbot Response:', response.data.response); 
             this.messages.push({id:response.data.id, type: 'bot', text: response.data.response });
             this.voted.push(false);
+            this.title_id = response.data.title_id;
+            this.getChats(this.username, 0);
           } else {
             console.error('Chatbot Offline');
             this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
@@ -165,4 +197,42 @@ export class RSPage {
     
   }
  
+  loadChat(id: number){
+    this.loading.setLoading(true); // Show the loader
+    this.isloading = true;
+    if (id==-1){
+      this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+      this.loading.setLoading(false); // Hide the loader
+      this.isloading = false;
+      return;
+    }
+    const options = {
+      url: environment.API_URL + '/api/loadChat/',
+      data: {id: id },
+      callback: (response: any) => {
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+        this.voted = [true];
+        if (response.success) {
+          this.title_id = id;
+          for (let i = 0; i < response.data.length; i++) {
+            this.messages.push({id:response.data[i].chat_id, type: 'user', text: response.data[i].user_message });
+            this.voted.push(true);
+            this.messages.push({id:response.data[i].chat_id, type: 'bot', text: response.data[i].gpt_message });
+            if (response.data[i].vote!=0){
+              this.voted.push(true)
+            }
+            else{
+              this.voted.push(false);
+            }
+          }
+          this.getChats(this.username, 1);
+        }
+      }
+    };
+    this.apiService.apiCallHttpPost(options);
+    this.loading.setLoading(false); // Hide the loader
+    this.isloading = false;
+  }
 }

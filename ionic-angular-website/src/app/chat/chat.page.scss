@@ -18,7 +18,7 @@ align-items: flex-start; /* Align items to the top */
 background-color: #f0f0f0; /* Background color */
 color: black; /* Text color */
 width: 100vw; /* Full width */
-height: 80vh;
+height: 82vh;
 transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 }
 
@@ -29,9 +29,9 @@ background-color: #ffffff;
 border-radius: 5px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
 transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-flex: .75;
+flex: .8;
 padding: 10px;
-gap: 15px;
+gap: 10px;
 transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 }
 
@@ -50,37 +50,39 @@ align-self: center;
 align-content: center;
 text-align: center;
 height: 100%;
+width: 100%;
 }
 
 .chat-history{
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 5px;
-  width: 100%;
-  min-width: 100px;
+  flex-direction: column;
+  justify-content: start;
+  margin: 0px;
+  width: 98%;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-width: thin;
-}
+  scrollbar-width: 0px; /* For Firefox */
+  }
+
 
 ion-card{
-  display:flexbox;
+  margin: 0px;
+  display:flex;
   width: 100%;
-  height: 50px;
-  justify-content:center;
-  padding: 5px;
+  height: auto;
+  padding: 2px;
   border-radius: 5px;
   background-color: transparent;
   transition: transform 0.5s ease-in-out; /* Smooth grow transition */
   border: #000000 1px solid;
   cursor: pointer;
-  ion-card-title{
+  p{
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    font-size: small;
     color: black;
   }
 }
@@ -233,6 +235,7 @@ margin-bottom: 15px; /* Space between ion-items */
   border-radius: 5px;
   padding: 10px;
   overflow-y: scroll;
+  scrollbar-width: 0px;
   margin-bottom: 10px;
   height: 70vh;
 }
@@ -299,6 +302,7 @@ margin-bottom: 15px; /* Space between ion-items */
 .messages {
   flex-grow: 1;
   overflow-y: auto;
+  scrollbar-width: 0px;
   margin-bottom: 10px;
   max-height: 55vh;
 }
@@ -316,6 +320,7 @@ margin-bottom: 15px; /* Space between ion-items */
     word-wrap:break-word;
     white-space: pre-wrap;
     overflow-x: auto;
+    scrollbar-width: 0px;
     margin: 0 10px;
     cursor: text;
     -webkit-user-select: text;
@@ -341,6 +346,7 @@ margin-bottom: 15px; /* Space between ion-items */
   flex: 1;
   padding: 10px;
   overflow-y: auto;
+  scrollbar-width: 0px;
 }
 
 .message {
@@ -393,10 +399,10 @@ margin-bottom: 15px; /* Space between ion-items */
 
 
 .message-icons{
-  margin: 0 2px;
+  margin: 2px 2px;
   padding: 2px;
-  display: flex;
-  width: 20%;
+  display: block;
+  width: 100%;
 
   
   ion-icon:hover{

@@ -18,34 +18,10 @@ class UserModel(models.Model):
     class Meta:
         db_table = 'UserModel'
 
-
-# class ChatModel(models.Model):
-#     chatid = models.AutoField(primary_key=True)
-#     user = models.ForeignKey(UserModel, db_column="username", on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     is_active = models.BooleanField(default=True)
-
-#     def __str__(self):
-#         return self.chatid
-#     class Meta:
-#         db_table = 'ChatModel'
-
-# class MessageModel(models.Model):
-#     messageid = models.AutoField(primary_key=True)
-#     chat = models.ForeignKey(ChatModel, db_column="chatid", on_delete=models.CASCADE)
-#     messagetype = models.BooleanField()
-#     message = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     is_active = models.BooleanField(default=True)
-
-
-#     def __str__(self):
-#         return self.messageid
-#     class Meta:
-#         db_table = 'MessageModel'
-
 class Title(models.Model):
     title_id = models.AutoField(primary_key=True, auto_created=True)
+    gpt_id = models.IntegerField()
+    user_id = models.ForeignKey(UserModel, db_column="username", on_delete=models.CASCADE, default='')
     title = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
@@ -59,9 +35,8 @@ class Title(models.Model):
 
 class ChatHistory(models.Model):
     chat_id = models.AutoField(primary_key=True, auto_created=True)
-    gpt_id = models.IntegerField()
-    user_id = models.ForeignKey(UserModel, db_column="username", on_delete=models.CASCADE,default='')
-    title_id = models.ForeignKey(Title, db_column="title_id", on_delete=models.CASCADE,default=0)
+    gpt_id = models.ForeignKey(Title, db_column="gpt_id", on_delete=models.CASCADE, null=True, blank=True, related_name='chat_histories')
+    title_id = models.ForeignKey(Title, db_column="title_id", on_delete=models.CASCADE, null=True, blank=True, related_name='chat_titles')   
     user_message = models.TextField()
     gpt_message = models.TextField()
     vote = models.IntegerField(default=0)
@@ -69,7 +44,8 @@ class ChatHistory(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.chat_id
+        return str(self.chat_id)
     
     class Meta:
         db_table = 'ChatHistory'
+

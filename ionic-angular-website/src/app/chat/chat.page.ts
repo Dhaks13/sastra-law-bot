@@ -12,12 +12,13 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage {
+  title_id: number = -1;
   chats: any = [];
   userMessage: string = '';
   messages: { id: number, text: string; type: string }[] = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
   username: string = 'Guest';
   isloading: boolean = false;
-  voted: Array<boolean> = [];
+  voted: Array<boolean> = [true];
   constructor(public loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
@@ -102,7 +103,7 @@ export class ChatPage {
   
       const options = {
         url: environment.API_URL + '/api/lawbot/',
-        data: { user: this.username, text: text },
+        data: { user: this.username, text: text, title_id: this.title_id },
         callback: (response: any) => {
           this.loading.setLoading(false); // Hide the loader
           this.isloading = false;
@@ -110,6 +111,8 @@ export class ChatPage {
             console.log('Chatbot Response:', response.data.response); 
             this.messages.push({id:response.data.id, type: 'bot', text: response.data.response });
             this.voted.push(false);
+            this.title_id = response.data.title_id;
+            this.getChats(this.username, 0);
           } else {
             console.error('Chatbot Offline');
             this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
@@ -200,20 +203,32 @@ export class ChatPage {
       return;
     }
     const options = {
-      url: environment.API_URL + '/api/loadchat/',
-      data: { user: this.username, id: id },
+      url: environment.API_URL + '/api/loadChat/',
+      data: {id: id },
       callback: (response: any) => {
         this.loading.setLoading(false); // Hide the loader
         this.isloading = false;
+        this.messages = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
+        this.voted = [true];
         if (response.success) {
+          this.title_id = id;
           for (let i = 0; i < response.data.length; i++) {
-            this.messages.push({id:response.data[i].id, type: 'user', text: response.data[i].user_text });
-            this.messages.push({id:response.data[i].id, type: 'bot', text: response.data[i].bot_text });
-            (response.data.voted==true)?this.voted.push(true):this.voted.push(false);
+            this.messages.push({id:response.data[i].chat_id, type: 'user', text: response.data[i].user_message });
+            this.voted.push(true);
+            this.messages.push({id:response.data[i].chat_id, type: 'bot', text: response.data[i].gpt_message });
+            if (response.data[i].vote!=0){
+              this.voted.push(true)
+            }
+            else{
+              this.voted.push(false);
+            }
           }
+          this.getChats(this.username, 0);
         }
       }
     };
     this.apiService.apiCallHttpPost(options);
+    this.loading.setLoading(false); // Hide the loader
+    this.isloading = false;
   }
 }
