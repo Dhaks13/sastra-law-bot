@@ -7,13 +7,13 @@ import pdfplumber
 import requests
 from django.http import JsonResponse
 
-def get_ml_response(input_text):
+def get_ml_response1(input_text):
     response = requests.post('http://172.16.13.81:5000/generate', json={'input': input_text})
     data = response.json()
     return data
 
 
-def get_ml_response1(input_text):
+def get_ml_response2(input_text):
     response = requests.post('http://172.16.13.81:5001/generate', json={'input': input_text})
     data = response.json()
     return data
@@ -118,15 +118,16 @@ class lawbot(APIView):
                 get_title = generate_title(text)
                 if get_title:
                     print(get_title)
-                    data = {'gpt_id': 0, 'user_id': user, 'title': get_title['response']}
+                    data = {'gpt_id': 1, 'user_id': user, 'title': get_title['response']}
                     serializer = TitleSerializer(data=data)
                     if serializer.is_valid():
                         serializer.save()
                         title_id = serializer.instance.title_id
-            response = get_ml_response(text)
+                        print(title_id)
+            response = get_ml_response1(text)
 
             if response:
-                data = {'gpt_id': 0,'title_id': title_id,'user_message': text, 'gpt_message': response['response']}
+                data = {'gpt_id': 1,'title_id': title_id,'user_message': text, 'gpt_message': response['response']}
                 serializer = ChatHistorySerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
@@ -152,15 +153,15 @@ class RecSys(APIView):
                 get_title = generate_title(text)
                 if get_title:
                     print(get_title)
-                    data = {'gpt_id': 1, 'user_id': user, 'title': get_title['response']}
+                    data = {'gpt_id': 2, 'user_id': user, 'title': get_title['response']}
                     serializer = TitleSerializer(data=data)
                     if serializer.is_valid():
                         serializer.save()
                         title_id = serializer.instance.title_id
-            response = get_ml_response1(text)
+            response = get_ml_response2(text)
 
             if response:
-                data = {'gpt_id': 1,'title_id': title_id,'user_message': text, 'gpt_message': response['response']}
+                data = {'gpt_id': 2,'title_id': title_id,'user_message': text, 'gpt_message': response['response']}
                 serializer = ChatHistorySerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()

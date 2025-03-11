@@ -6,14 +6,19 @@ class UserModelSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = '__all__'
 
+class GPTsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GPTs
+        fields = '__all__'
+
 class TitleSerializer(serializers.ModelSerializer):
-    user_id = serializers.SlugRelatedField(slug_field="username", queryset=UserModel.objects.all())
+    user_id = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all())
     class Meta:
         model = Title
         fields = '__all__'
 
 class ChatHistorySerializer(serializers.ModelSerializer):
-    title_id = serializers.PrimaryKeyRelatedField(queryset=Title.objects.all())
+    title_id = serializers.PrimaryKeyRelatedField(queryset=Title.objects.all())  # Use PK for title
 
     class Meta:
         model = ChatHistory

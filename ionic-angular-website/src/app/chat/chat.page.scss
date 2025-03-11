@@ -399,10 +399,11 @@ margin-bottom: 15px; /* Space between ion-items */
 
 
 .message-icons{
-  margin: 2px 2px;
+  margin: 2px;
   padding: 2px;
-  display: block;
-  width: 100%;
+  gap: 5px;
+  display: flex;
+  width: 30%;
 
   
   ion-icon:hover{

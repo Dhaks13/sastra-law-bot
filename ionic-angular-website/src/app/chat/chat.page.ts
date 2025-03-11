@@ -34,7 +34,7 @@ export class ChatPage {
     if(this.getUsernameFromCookie()==''){
         this.router.navigate(['/home']);
     }
-    this.getChats(this.username, 0);
+    this.getChats(this.username, 1);
     this.loading.setLoading(false);
   }  
 
@@ -112,7 +112,7 @@ export class ChatPage {
             this.messages.push({id:response.data.id, type: 'bot', text: response.data.response });
             this.voted.push(false);
             this.title_id = response.data.title_id;
-            this.getChats(this.username, 0);
+            this.getChats(this.username, 1);
           } else {
             console.error('Chatbot Offline');
             this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
@@ -223,11 +223,12 @@ export class ChatPage {
               this.voted.push(false);
             }
           }
-          this.getChats(this.username, 0);
+          this.getChats(this.username, 1);
         }
       }
     };
     this.apiService.apiCallHttpPost(options);
+    this.title_id = id;
     this.loading.setLoading(false); // Hide the loader
     this.isloading = false;
   }

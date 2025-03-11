@@ -36,7 +36,7 @@ export class RSPage {
     if(this.getUsernameFromCookie()==''){
         this.router.navigate(['/home']);
     }
-    this.getChats(this.username, 1);
+    this.getChats(this.username, 2);
     this.loading.setLoading(false);
   }  
 
@@ -115,7 +115,7 @@ export class RSPage {
             this.messages.push({id:response.data.id, type: 'bot', text: response.data.response });
             this.voted.push(false);
             this.title_id = response.data.title_id;
-            this.getChats(this.username, 0);
+            this.getChats(this.username, 2);
           } else {
             console.error('Chatbot Offline');
             this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
@@ -227,7 +227,7 @@ export class RSPage {
               this.voted.push(false);
             }
           }
-          this.getChats(this.username, 1);
+          this.getChats(this.username, 2);
         }
       }
     };
