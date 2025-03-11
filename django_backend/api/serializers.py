@@ -6,15 +6,15 @@ class UserModelSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = '__all__'
 
-class ChatHistorySerializer(serializers.ModelSerializer):
+class TitleSerializer(serializers.ModelSerializer):
     user_id = serializers.SlugRelatedField(slug_field="username", queryset=UserModel.objects.all())
+    class Meta:
+        model = Title
+        fields = '__all__'
+
+class ChatHistorySerializer(serializers.ModelSerializer):
     title_id = serializers.PrimaryKeyRelatedField(queryset=Title.objects.all())
 
     class Meta:
         model = ChatHistory
-        fields = '__all__'
-
-class TitleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Title
         fields = '__all__'
