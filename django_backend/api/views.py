@@ -8,18 +8,18 @@ import requests
 from django.http import JsonResponse
 
 def get_ml_response1(input_text):
-    response = requests.post('http://172.16.13.81:5000/generate', json={'input': input_text})
+    response = requests.post('http://172.16.13.91:5000/generate', json={'input': input_text})
     data = response.json()
     return data
 
 
 def get_ml_response2(input_text):
-    response = requests.post('http://172.16.13.81:5001/generate', json={'input': input_text})
+    response = requests.post('http://172.16.13.91:5001/generate', json={'input': input_text})
     data = response.json()
     return data
 
 def generate_title(input_text):
-    response = requests.post('http://172.16.13.81:5000/title_gen', json={'input': input_text})
+    response = requests.post('http://172.16.13.91:5000/title_gen', json={'input': input_text})
     data = response.json()
     return data
 
@@ -132,10 +132,10 @@ class lawbot(APIView):
                 if serializer.is_valid():
                     serializer.save()
                     chat_id = serializer.instance.chat_id  # Correct way to get the ID
-                    return JsonResponse({"success": True, 'data': {'response': response['response'], 'id': chat_id}})
+                    return JsonResponse({"success": True, 'data': {'response': response['response'],'title_id': title_id, 'id': chat_id}})
                 else:
                     print(serializer.errors)
-                    return JsonResponse({"success": True,  'data': {'response': response['response'], 'id': -1}})
+                    return JsonResponse({"success": True,  'data': {'response': response['response'],'title_id': title_id, 'id': -1}})
 
             else:
                 return JsonResponse({"success": False, 'data': response['response']})
@@ -166,10 +166,10 @@ class RecSys(APIView):
                 if serializer.is_valid():
                     serializer.save()
                     chat_id = serializer.instance.chat_id  # Correct way to get the ID
-                    return JsonResponse({"success": True, 'data': {'response': response['response'], 'id': chat_id}})
+                    return JsonResponse({"success": True, 'data': {'response': response['response'],'title_id': title_id, 'id': chat_id}})
                 else:
                     print(serializer.errors)
-                    return JsonResponse({"success": True,  'data': {'response': response['response'], 'id': -1}})
+                    return JsonResponse({"success": True,  'data': {'response': response['response'],'title_id': title_id, 'id': -1}})
 
             else:
                 return JsonResponse({"success": False, 'data': response['response']})

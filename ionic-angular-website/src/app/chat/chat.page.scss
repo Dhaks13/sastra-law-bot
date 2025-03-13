@@ -18,7 +18,7 @@ align-items: flex-start; /* Align items to the top */
 background-color: #f0f0f0; /* Background color */
 color: black; /* Text color */
 width: 100vw; /* Full width */
-height: 82vh;
+height: 80vh;
 transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 }
 
@@ -57,12 +57,12 @@ width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  margin: 0px;
+  margin: 2px;
+  padding: 2px;
   width: 98%;
   height: 100%;
   overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: 0px; /* For Firefox */
+  scrollbar-width: 2px; /* For Firefox */
   }
 
 
@@ -70,7 +70,7 @@ ion-card{
   margin: 0px;
   display:flex;
   width: 100%;
-  height: auto;
+  height: fit-content;
   padding: 2px;
   border-radius: 5px;
   background-color: transparent;
@@ -84,6 +84,13 @@ ion-card{
     align-items: center;
     font-size: small;
     color: black;
+  }
+}
+
+.active{
+  background-color: rgb(48, 48, 48);
+  p{
+    color: white;
   }
 }
 
@@ -211,9 +218,9 @@ margin-bottom: 15px; /* Space between ion-items */
     display: block;
     align-items:first baseline;
     justify-items:flex-start;
-    margin: 0;
+    margin: 0px 5px;
     border-radius: 5px;
-    width: 75%;
+    width: 100%;
     min-width: 75%;
     height: 100%;
   
@@ -235,7 +242,7 @@ margin-bottom: 15px; /* Space between ion-items */
   border-radius: 5px;
   padding: 10px;
   overflow-y: scroll;
-  scrollbar-width: 0px;
+  scrollbar-width: 2px;
   margin-bottom: 10px;
   height: 70vh;
 }
@@ -262,7 +269,7 @@ margin-bottom: 15px; /* Space between ion-items */
 
 /* Scrollbar styling for Firefox */
 .messages-container {
-  scrollbar-width: thin;
+  scrollbar-width: 2px;
   scrollbar-color: linear-gradient(180deg, #a7a0ff, #00b8d4) #333; /* Thumb and track color */
 }
 
@@ -294,17 +301,16 @@ margin-bottom: 15px; /* Space between ion-items */
 .chat-container {
   display: flex;
   flex-direction: column;
-  scrollbar-width: thin;
   width: 100%;
   height: 100%;
 }
 
 .messages {
-  flex-grow: 1;
   overflow-y: auto;
-  scrollbar-width: 0px;
+  scroll-behavior: smooth;
+  scrollbar-width: 2px;
   margin-bottom: 10px;
-  max-height: 55vh;
+  max-height: 60vh;
 }
 
 .message {
@@ -320,7 +326,7 @@ margin-bottom: 15px; /* Space between ion-items */
     word-wrap:break-word;
     white-space: pre-wrap;
     overflow-x: auto;
-    scrollbar-width: 0px;
+    scrollbar-width: 1px;
     margin: 0 10px;
     cursor: text;
     -webkit-user-select: text;
@@ -342,12 +348,6 @@ margin-bottom: 15px; /* Space between ion-items */
   border-bottom: 1px solid #ccc;
 }
 
-.chat-messages {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  scrollbar-width: 0px;
-}
 
 .message {
   display: flex;
@@ -361,9 +361,9 @@ margin-bottom: 15px; /* Space between ion-items */
   justify-content: flex-start; 
   align-self: flex-start;
   background-color: #d1ecf1;
-  width: 80%;
+  width: 70%;
   text-align: left;
-  margin: 5px 0 0 10px;
+  margin: 5px 20% 0 0;
   padding:10px;
   gap: 2px;
   display: flex;
@@ -372,9 +372,9 @@ margin-bottom: 15px; /* Space between ion-items */
 .message.user {
   justify-content: flex-end;
   align-self: flex-end;
-  margin: 5px 10px 0 0;
+  margin: 5px 0 0 20%;
   background-color: #cce5ff;
-  width: 80%;
+  width: 70%;
   text-align: right;
   padding:10px;
   gap: 2px;
@@ -479,7 +479,7 @@ margin-bottom: 15px; /* Space between ion-items */
   }
   .messages {
     max-height: 58vh;
-    scrollbar-width: 0px;
+    scrollbar-width: 2px;
   }
   .message img {
     width: 30px;

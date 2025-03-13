@@ -12,6 +12,7 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage {
+  active_index: number = -1;
   title_id: number = -1;
   chats: any = [];
   userMessage: string = '';
@@ -35,6 +36,8 @@ export class ChatPage {
         this.router.navigate(['/home']);
     }
     this.getChats(this.username, 1);
+    this.active_index = -1;
+    this.title_id = -1;
     this.loading.setLoading(false);
   }  
 
@@ -73,22 +76,26 @@ export class ChatPage {
   
   dash(){
     this.loading.setLoading(true);
+    this.active_index = -1;
+    this.title_id = -1;
     console.log('dashboard');
     this.router.navigate(['/dashboard']);
     this.loading.setLoading(false);
   }
   
   
-  dss(){
-    this.loading.setLoading(true);
-    console.log('dss');
-    this.router.navigate(['/dss']);
-    this.loading.setLoading(false);
-  }
+  // dss(){
+  //   this.loading.setLoading(true);
+  //   console.log('dss');
+  //   this.router.navigate(['/dss']);
+  //   this.loading.setLoading(false);
+  // }
   
   rs(){
     this.loading.setLoading(true);
     this.messages = [{ id:-1,text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
+    this.active_index = -1;
+    this.title_id = -1;
     console.log('rs');
     this.router.navigate(['/rs']);
     this.loading.setLoading(false);
@@ -97,10 +104,17 @@ export class ChatPage {
   sendMessage() {
     this.loading.setLoading(true); // Show the loader
     this.isloading = true;
+    var element = document.querySelector(".messages");
     if (this.userMessage.trim()) {
       const text = this.userMessage;
       this.messages.push({id:-1, type: 'user', text: this.userMessage });
-  
+      
+      if (element) {
+        var top = element.scrollHeight;
+        console.log(top);
+        element.scrollTop = top;
+    }  
+    
       const options = {
         url: environment.API_URL + '/api/lawbot/',
         data: { user: this.username, text: text, title_id: this.title_id },
@@ -113,32 +127,39 @@ export class ChatPage {
             this.voted.push(false);
             this.title_id = response.data.title_id;
             this.getChats(this.username, 1);
+            this.active_index = 0;
+           
           } else {
             console.error('Chatbot Offline');
             this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
           }
+          if (element) {
+            var top = element.scrollHeight;
+            console.log(top);
+            element.scrollTop = top;
+        }
         },
         errorcall: (error: any) => {
           this.loading.setLoading(false); // Hide the loader
           this.isloading = false;
           console.error('Server Error:', error);
           this.messages.push({id:-1, type: 'bot', text: 'Sorry, there was an error processing your request. Please try again later.' });
+          if (element) {
+            var top = element.scrollHeight;
+            console.log(top);
+            element.scrollTop = top;
+        }
         }
       };
-  
       // Make the API call
       this.apiService.apiCallHttpPost(options);
   
       // Clear the user message input
       this.userMessage = '';
-  
-      // Scroll to the bottom of the chat
-      setTimeout(() => {
-        const chatContainer = document.querySelector('.chat-container');
-        if (chatContainer) {
-          chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-      }, 0);
+      if (element) {
+        var top = element.scrollHeight;
+        element.scrollTop = top;
+    }    
     } else {
       this.loading.setLoading(false); // Hide the loader if no message is provided
     }
@@ -193,13 +214,19 @@ export class ChatPage {
     
   }
   
-  loadChat(id: number){
+  isActive(index: number): boolean {
+    return this.active_index === index;
+  }
+
+  loadChat(id: number,active: number){
     this.loading.setLoading(true); // Show the loader
-    this.isloading = true;
+    this.isloading = true
     if (id==-1){
       this.messages = [{id:-1 , text: 'Hello, I am Legal Law Bot. How can I assist you today ?', type: 'bot' }];
       this.loading.setLoading(false); // Hide the loader
       this.isloading = false;
+      this.title_id = id;
+      this.active_index = active;
       return;
     }
     const options = {
@@ -229,7 +256,9 @@ export class ChatPage {
     };
     this.apiService.apiCallHttpPost(options);
     this.title_id = id;
+    this.active_index = active;
     this.loading.setLoading(false); // Hide the loader
     this.isloading = false;
+    return
   }
 }

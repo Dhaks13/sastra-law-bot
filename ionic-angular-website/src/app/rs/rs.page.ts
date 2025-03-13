@@ -13,6 +13,7 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./rs.page.scss'],
 })
 export class RSPage {
+  active_index: number = -1;
   title_id: number = -1;
   chats: any = [];
   userMessage: string = '';
@@ -37,6 +38,8 @@ export class RSPage {
         this.router.navigate(['/home']);
     }
     this.getChats(this.username, 2);
+    this.active_index = -1;
+    this.title_id = -1;
     this.loading.setLoading(false);
   }  
 
@@ -75,22 +78,26 @@ export class RSPage {
 
   dash(){
     this.loading.setLoading(true);
+    this.active_index = -1;
+    this.title_id = -1;
     console.log('dashboard');
     this.router.navigate(['/dashboard']);
     this.loading.setLoading(false);
   }
   
-  dss(){
-    this.loading.setLoading(true);
-    this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
-    console.log('dss');
-    this.router.navigate(['/dss']);
-    this.loading.setLoading(false);
-  }
+  // dss(){
+  //   this.loading.setLoading(true);
+  //   this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+  //   console.log('dss');
+  //   this.router.navigate(['/dss']);
+  //   this.loading.setLoading(false);
+  // }
   
   lkb(){
     this.loading.setLoading(true);
     this.messages = [{ id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+    this.active_index = -1;
+    this.title_id = -1;
     console.log('chat');
     this.router.navigate(['/chat']);
     this.loading.setLoading(false);
@@ -100,10 +107,12 @@ export class RSPage {
   sendMessage() {
     this.loading.setLoading(true); // Show the loader
     this.isloading = true;
+    const element = document.querySelector(".messages");
+
     if (this.userMessage.trim()) {
       const text = this.userMessage;
       this.messages.push({id:-1, type: 'user', text: this.userMessage });
-  
+      
       const options = {
         url: environment.API_URL + '/api/RecSys/',
         data: { user: this.username, text: text, title_id: this.title_id },
@@ -116,9 +125,24 @@ export class RSPage {
             this.voted.push(false);
             this.title_id = response.data.title_id;
             this.getChats(this.username, 2);
+            this.active_index = 0;
+            
+      if (element) {
+        const top = element.scrollHeight;
+        console.log(top);
+        element.scrollTop = top;
+    }  
+  
           } else {
             console.error('Chatbot Offline');
             this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
+            
+      if (element) {
+        const top = element.scrollHeight + 50;
+        console.log(top);
+        element.scrollTop = top;
+    }  
+  
           }
         },
         errorcall: (error: any) => {
@@ -126,22 +150,34 @@ export class RSPage {
           this.isloading = false;
           console.error('Server Error:', error);
           this.messages.push({id:-1, type: 'bot', text: 'Sorry, there was an error processing your request. Please try again later.' });
+          
+      if (element) {
+        const top = element.scrollHeight + 50;
+        console.log(top);
+        element.scrollTop = top;
+    }  
+  
         }
       };
-  
       // Make the API call
       this.apiService.apiCallHttpPost(options);
+      
+      if (element) {
+        const top = element.scrollHeight + 50;
+        console.log(top);
+        element.scrollTop = top;
+    }  
+  
   
       // Clear the user message input
       this.userMessage = '';
   
-      // Scroll to the bottom of the chat
-      setTimeout(() => {
-        const chatContainer = document.querySelector('.chat-container');
-        if (chatContainer) {
-          chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-      }, 0);
+      if (element) {
+        const top = element.scrollHeight + 50;
+        console.log(top);
+        element.scrollTop = top;
+    }  
+  
     } else {
       this.loading.setLoading(false); // Hide the loader if no message is provided
     }
@@ -196,14 +232,22 @@ export class RSPage {
     this.apiService.apiCallHttpPost(options);
     
   }
+
+    
+  isActive(index: number): boolean {
+    return this.active_index === index;
+  }
+
  
-  loadChat(id: number){
+  loadChat(id: number,active: number){
     this.loading.setLoading(true); // Show the loader
     this.isloading = true;
     if (id==-1){
       this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
       this.loading.setLoading(false); // Hide the loader
       this.isloading = false;
+      this.title_id = id;
+      this.active_index = active;
       return;
     }
     const options = {
@@ -232,7 +276,10 @@ export class RSPage {
       }
     };
     this.apiService.apiCallHttpPost(options);
+    this.title_id = id;
+    this.active_index = active;
     this.loading.setLoading(false); // Hide the loader
     this.isloading = false;
+    return
   }
 }

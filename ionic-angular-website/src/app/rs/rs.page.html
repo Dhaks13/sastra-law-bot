@@ -41,14 +41,16 @@
       </div>
       <div class="card-element">
         <div class="chat-history">
-          <ion-card class="history" (click)="loadChat(-1)">
+          <div class="history">
+          <ion-card id="title{{-1}}" class="history"         [ngClass]="{ active: isActive(-1) }" (click)="loadChat(-1,-1)">
             <p>New Chat</p>
           </ion-card>
-          <div *ngFor="let chat of chats">
-            <ion-card class="history" (click)="loadChat(chat.title_id)">
+          <div *ngFor="let chat of chats; index as i">
+            <ion-card id="title{{i}}" class="history"         [ngClass]="{ active: isActive(i) }"  (click)="loadChat(chat.title_id,i)">
               <p>{{chat.title}}</p>
             </ion-card>
           </div>
+        </div>
         </div>
       </div>
       <div class="card-element">
@@ -78,7 +80,7 @@
                   </div>
                   <div *ngIf="i > 0 && message.type === 'user'" class="message user">
                       <div class="user_message{{i}}" class="message-text">
-                        <pre>{{message.text}}</pre>
+                        <pre><div markdown="1"></div>{{message.text}}</pre>
                         <br>
                         <ion-icon [id]="'user_message' + i" (click)="copyText('user_message' + i)" name="copy"></ion-icon>
                       </div>

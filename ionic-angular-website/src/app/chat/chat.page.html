@@ -41,14 +41,16 @@
       </div>
       <div class="card-element">
         <div class="chat-history">
-          <ion-card class="history" (click)="loadChat(-1)">
+          <div class="history">
+          <ion-card id="title{{-1}}" class="history"         [ngClass]="{ active: isActive(-1) }" (click)="loadChat(-1,-1)">
             <p>New Chat</p>
           </ion-card>
-          <div *ngFor="let chat of chats">
-            <ion-card class="history" (click)="loadChat(chat.title_id)">
+          <div *ngFor="let chat of chats; index as i">
+            <ion-card id="title{{i}}" class="history"         [ngClass]="{ active: isActive(i) }"  (click)="loadChat(chat.title_id,i)">
               <p>{{chat.title}}</p>
             </ion-card>
           </div>
+        </div>
         </div>
       </div>
 

@@ -45,8 +45,8 @@
             >
               <ion-icon  name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-input>
-          <!-- reCAPTCHA widget -->
-          <div class="recaptcha-container" #recaptchaElement></div>
+          <!-- reCAPTCHA widget
+          <div class="recaptcha-container" #recaptchaElement></div> -->
           <ion-button expand="block" (click)="submitSignInForm()" >Sign In</ion-button>
           <ion-text color="danger" *ngIf="signinFormErrors">Incorrect Username/Password</ion-text>
         </form>
@@ -110,8 +110,8 @@
               <div *ngIf="signupForm.controls['confirmPassword'].touched && signupForm.errors?.['passwordMismatch']">
                <ion-text color="danger">Passwords do not match.</ion-text>
              </div>
-             <!-- reCAPTCHA widget -->
-          <div class="recaptcha-container" #recaptchaElement></div>
+             <!-- reCAPTCHA widget
+          <div class="recaptcha-container" #recaptchaElement></div> -->
           <ion-button expand="block" (click)="submitSignupForm()" [disabled]="!signupForm.valid || buttonDisabled || usernameExists || emailExists">Sign Up</ion-button>
           <ion-text color="danger" *ngIf="signupFormErrors">Unable to SignUp check ur connection!</ion-text>
         </form>
