@@ -1,500 +1,758 @@
+/* Global Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(56, 88, 233, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(56, 88, 233, 0.6); }
+}
+
+@keyframes typing {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+@keyframes bounce {
+  0%, 20%, 60%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  80% { transform: translateY(-5px); }
+}
+
+.side-nav{
+  
+  padding: 12px 0;
+
+  .loged{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    --color: linear-gradient(45deg, #667eea, #7b47af);
+  }
+
+}
+.username{
+      margin: auto;
+      text-shadow: #0f172a ;
+      --color: linear-gradient(45deg, #667eea, #7b47af);
+}
+
+/* Header and Toolbar with Animation */
+#ion-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  animation: slideInDown 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+#ion-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.ion-top-bar {
+  --background: transparent;
+  --color: #fff;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+#ion-toolbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  animation: fadeIn 0.8s ease-out;
+}
+
+#ion-toolbar-content img {
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+
+#ion-toolbar-content img:hover {
+  transform: rotate(360deg) scale(1.1);
+  animation: bounce 0.6s ease-out;
+}
+
+ion-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(45deg, #fff, #e0e7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse 2s infinite;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ion-toolbar-content-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: slideInRight 0.8s ease-out;
+}
+
+.ion-toolbar-content-right ion-text {
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.logout-button {
+  width: fit-content;
+  height: fit-content ;
+  --background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  --color: #fff;
+  font-weight: lighter;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%);
+}
+
+.logout-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.logout-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+}
+
+/* Main Container with Animation */
 .container {
   display: flex;
-  scroll-behavior: smooth;
-  text-align:start;
-  padding: 5px;
-  margin-top: 85px;
-  color: black;
-  position: fixed;
-  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-
+  max-width: 1400px;
+  // margin: 30px auto;
+  padding: 0 20px;
+  animation: fadeIn 1s ease-out;
+  height: calc(100% - 50px);
 }
-/* Card container styles */
+
 .card-container {
-display: flex;
-flex-direction: row;
-justify-content: space-around; /* Space around cards */
-align-items: flex-start; /* Align items to the top */
-background-color: #f0f0f0; /* Background color */
-color: black; /* Text color */
-width: 100vw; /* Full width */
-height: 80vh;
-transition: transform 0.5s ease-in-out; /* Smooth grow transition */
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* Card element styles */
 .card-element {
-height: 100%;
-background-color: #ffffff;
-border-radius: 5px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
-transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-flex: .8;
-padding: 10px;
-gap: 10px;
-transition: transform 0.5s ease-in-out; /* Smooth grow transition */
+  background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 20px;
+  flex: 1 1 380px;
+  min-width: 350px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-.card-element:last-of-type{
-background-color: rgba(255, 255, 255, 0.25);
-flex: 5;
+.card-element::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
 }
 
-.element-content{
-display: flex;
-flex-direction: column;
-justify-self: center;
-justify-content: center;
-justify-items: center;
-align-self: center;
-align-content: center;
-text-align: center;
-height: 100%;
-width: 100%;
+.card-element:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
-.chat-history{
+.card-element:hover::before {
+  left: 100%;
+}
+
+.element-content {
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  margin: 2px;
-  padding: 2px;
-  width: 98%;
-  height: 100%;
-  overflow-y: auto;
-  scrollbar-width: 2px; /* For Firefox */
-  }
+  align-items: stretch;
+  gap: 18px;
+}
 
-
-ion-card{
-  margin: 0px;
-  display:flex;
+.element-content-chat {
+  margin-top: 10px;
   width: 100%;
-  height: fit-content;
-  padding: 2px;
-  border-radius: 5px;
-  background-color: transparent;
-  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-  border: #000000 1px solid;
-  cursor: pointer;
-  p{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: small;
-    color: black;
-  }
+  height: 100%;
+  position: relative;
+  padding: 0 !important;
 }
 
-.active{
-  background-color: rgb(48, 48, 48);
-  p{
-    color: white;
-  }
+/* Button Group Animation */
+.button-group-container {
+  margin-bottom: 20px;
+  text-align: center;
+  animation: slideInLeft 0.8s ease-out;
 }
 
+.ion-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ion-button-group ion-button {
+  --border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  --background: linear-gradient(45deg, #667eea, #764ba2);
+  --color: #fff;
+  margin: 4px 0;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.ion-button-group ion-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%);
+}
+
+.ion-button-group ion-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.ion-button-group ion-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* Header Section Animation */
 .header-section {
-display: block;  
-justify-content: center;
-align-items: center;
-gap:35px
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1.2s ease-out;
+  padding: 20px 0;
 }
 
 .header-section img {
-width: 125px; /* Adjust width as needed */
-height: 130px; /* Maintain aspect ratio */
+  height: 45px;
+  margin: 0 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  filter: grayscale(20%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.header-section img:first-of-type{
-width: 155px;
+.header-section img:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: grayscale(0%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  animation: bounce 0.6s ease-out;
 }
 
-h1,h5 {
-text-align: center; /* Center align headings */
-margin-bottom: 20px; /* Space below headings */
+/* Chat History with Cool Animations */
+.chat-history {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
+  animation: slideInLeft 1s ease-out;
 }
 
-ion-item {
---padding-start: 10px; /* Left padding */
---padding-end: 10px; /* Right padding */
---padding-top: 10px; /* Top padding */
---padding-bottom: 10px; /* Bottom padding */
---background: #f5f5f5; /* Light gray background */
---border-radius: 8px; /* Rounded corners */
-border: 1px solid #ddd; /* Light border */
-margin-bottom: 15px; /* Space between ion-items */
+.history {
+  /* Container for chat history items */
 }
 
-.ion-toolbar-content-right{
-  margin-top: 10px;
-  display:block;
-  justify-content: end;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  
-  ion-text{
-    display: inline-block; /* Show by default */
-    color: white;
-    padding: 10px;
-    margin-right: 5px;
-  }
-  ion-button{
-    margin-top: -5px;
-    padding: 0;
-  }
+/* Custom Scrollbar */
+.chat-history::-webkit-scrollbar {
+  width: 6px;
 }
 
-.ion-button-group{
-  display: block;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  ion-button{
-    margin-top: 0;
-    width: 100%;
-  }
-  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-  
-  }
-
-
-/* Adjust button size for small screens */
-.button-group-container{
-
-  ion-button {
-    margin-top: 20px;
-    --background: #222222;
-    --background-hover: #ffffff;
-    --background-activated: #000000;
-    --background-focused: #ffffff;
-  
-    --color: #ffffff;
-    --color-hover: #c4c4c4;
-    --color-activated: #ffffff;
-  
-    --border-radius: 4%;
-    --border-color: #000;
-    --border-style: solid;
-    --border-width: 1px;
-  
-    --box-shadow: 2px 6px rgba(255, 255, 255, 0.5);
-    --box-shadow-hover: 2px 6px rgba(0, 0, 0, 0.5);
-    --ripple-color: whitesmoke;
-  
-    --padding-top: 10px;
-    --padding-bottom: 10px;
-  
-    width: 200px;
-    height: 50px;
-    font-size: 15px;
-  }  
-  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
-
-  ion-button:hover{
-    transform: scale(1.1);
-  }
-}
-  .image-container img{
-  width: 120px;
-  height: 120px;  
-  }
-
-  
-  #ion-button-group {
-    margin-top: 10px;
-    width: 200px;
-    display:grid;
-    gap: 10px;
-  }
-
-  .element-content-chat{
-    width: 75%;
-    height: 100%;
-  }
-
-  .chat-section {
-    display: block;
-    align-items:first baseline;
-    justify-items:flex-start;
-    margin: 0px 5px;
-    border-radius: 5px;
-    width: 100%;
-    min-width: 75%;
-    height: 100%;
-  
-    ion-input{
-      position: absolute;
-      bottom: 0;
-      width: 50%;
-      text-align: start;
-      justify-content: baseline;
-      align-self: baseline;
-      align-items: baseline;
-      margin-bottom: 20px;
-    }
-  }
-  
-.messages-container {
-  flex: 1;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  overflow-y: scroll;
-  scrollbar-width: 2px;
-  margin-bottom: 10px;
-  height: 70vh;
-}
-
-/* Scrollbar styling for webkit browsers (Chrome, Safari, Brave) */
-.messages-container::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-}
-
-.messages-container::-webkit-scrollbar-track {
-  background: #333; /* Color of the track */
+.chat-history::-webkit-scrollbar-track {
+  background: #f1f5f9;
   border-radius: 10px;
 }
 
-.messages-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #a7a0ff, #00b8d4); /* Gradient color for the thumb */
+.chat-history::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #667eea, #764ba2);
   border-radius: 10px;
-  border: 2px solid #333; /* Gives the thumb some space inside the track */
+  transition: all 0.3s ease;
 }
 
-.messages-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #8a81ff, #00a2c2); /* Gradient color for the thumb on hover */
+.chat-history::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5a67d8, #6b46c1);
 }
 
-/* Scrollbar styling for Firefox */
-.messages-container {
-  scrollbar-width: 2px;
-  scrollbar-color: linear-gradient(180deg, #a7a0ff, #00b8d4) #333; /* Thumb and track color */
+ion-card.history {
+  padding: 16px 20px;
+  margin: 12px 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  cursor: pointer;
+  border-radius: 15px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Scrollbar styling for IE 10+ */
-.messages-container {
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-
-.messages-container::-ms-scrollbar {
-  width: 12px;
-}
-
-.messages-container::-ms-scrollbar-track {
-  background: #333;
-  border-radius: 10px;
-}
-
-.messages-container::-ms-scrollbar-thumb {
-  background: linear-gradient(180deg, #a7a0ff, #00b8d4);
-  border-radius: 10px;
-  border: 2px solid #333;
-}
-
-.messages-container::-ms-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #8a81ff, #00a2c2);
-}
-
-
-.chat-container {
-  display: flex;
-  flex-direction: column;
+ion-card.history::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
   width: 100%;
   height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+  transition: left 0.5s;
 }
 
-.messages {
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: 2px;
-  margin-bottom: 10px;
-  max-height: 60vh;
+ion-card.history:hover::before {
+  left: 100%;
 }
 
-.message {
-  padding: 5px;
-  margin: 5px 0;
-  border-radius: 5px;
-  background-color: #f1f1f1;
-  max-width: 100%;
-  width: 100%;
+ion-card.history:hover {
+  transform: translateX(8px) scale(1.02);
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  border-left-color: #667eea;
+  // box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+ion-card.history.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  font-weight: bold;
+  border-left-color: #fbbf24;
+  // animation: glow 2s infinite;
+  transform: translateX(5px);
+  // box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+ion-card.history p {
+  margin: 0;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Chat Section with Enhanced Animation */
+.chat-section {
+  // width: 90vb;
   display: flex;
-  pre{
-    width: 100%;
-    word-wrap:break-word;
-    white-space: pre-wrap;
-    overflow-x: auto;
-    scrollbar-width: 1px;
-    margin: 0 10px;
-    cursor: text;
-    -webkit-user-select: text;
-    user-select: text;
-  }
+  flex-direction: column;
+  min-height: 500px;
+  padding: 28px 8px 0 8px;
+  animation: fadeIn 1.2s ease-out;
 }
 
-.message img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-left: 10px;
-}
-
-
-.chat-header {
+.chat-container h1 {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+  position: relative;
+  font-size: 28px;
+  font-weight: 800;
 }
 
+.chat-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 2px;
+  animation: pulse 2s infinite;
+}
+
+/* Chat Container */
+.chat-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 20px;
+  
+  // margin-top: 20px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Messages Animation */
+.messages {
+  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 8px;
+}
+
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 10px;
+}
 
 .message {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  padding: 10px;
+  margin-bottom: 16px;
+  animation: slideInUp 0.5s ease-out;
+  align-items: flex-end;
 }
 
 .message.bot {
-  justify-content: flex-start; 
-  align-self: flex-start;
-  background-color: #d1ecf1;
-  width: 70%;
-  text-align: left;
-  margin: 5px 20% 0 0;
-  padding:10px;
-  gap: 2px;
-  display: flex;
+  justify-content: flex-start;
 }
 
 .message.user {
   justify-content: flex-end;
-  align-self: flex-end;
-  margin: 5px 0 0 20%;
-  background-color: #cce5ff;
-  width: 70%;
-  text-align: right;
-  padding:10px;
-  gap: 2px;
-  display: flex;
 }
-.message-text{
-  margin: 1px 2px;
-  align-content: right;
-  align-items: end;
-  align-self: end;
-  ion-icon{
-    margin: 0 auto;
+
+.message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 12px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 2px solid #fff;
+}
+
+.message img:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.message-text {
+  max-width: 70%;
+  padding: 16px 20px;
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+  word-wrap: break-word;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.message.bot .message-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom-left-radius: 5px;
+}
+
+.message.user .message-text {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.message-text:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.message-text pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Message Icons Animation */
+.message-icons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.message-icons ion-icon {
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+}
+
+.message-icons ion-icon:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.2) rotate(360deg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Input Section Animation */
+ion-input {
+  position: absolute;
+  bottom: 20px;
+  left: 25%;
+  width: 50%;
+  --background: rgba(255,255,255,0.9);
+  --border-radius: 25px;
+  margin-top: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  --border-color: #e2e8f0;
+  --border-width: 2px;
+  --padding-start: 20px;
+  --padding-end: 60px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+ion-input:focus-within {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+  --border-color: #667eea;
+}
+
+ion-button{
+  --background: transparent;
+}
+
+ion-button[slot="end"] {
+  --background: none;
+  --border-radius: 50%;
+  margin-right: 8px;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+  width: 15px;
+  height: 40px;
+  // box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+ion-button[slot="end"]:hover {
+  transform:  rotate(15deg);
+  // box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+ion-button[slot="end"]:disabled {
+  opacity: 0.6;
+  transform: none;
+}
+
+/* Loader Animation */
+app-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+}
+
+/* Loading States */
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Hover Effects for Interactive Elements */
+.interactive:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
   }
-}
-.chat-input-container {
-  display: flex;
-  --background: #f8f8f8; /* Light background color */
-  --border-radius: 20px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
-  padding: 10px;
-}
-
-
-.message-icons{
-  margin: 2px;
-  padding: 2px;
-  gap: 5px;
-  display: flex;
-  width: 30%;
-
   
-  ion-icon:hover{
-    transform: scale(1.2);
-  }
-}
-
-
-@media screen and (max-width: 800px) {
-  *{
-    transition: all 0.5s;
-  }
-  .content{
-    padding: 0;
-  }
-  .ion-toolbar-content-right ion-text {
-    display: none !important; /* Force hide on small screens */
-  }
-  .ion-toolbar-content-right ion-button {
-    margin-top: 0;
-  }
   .card-element {
-    font-size: small;
+    max-width: 100%;
+    margin: 0 8px 20px 8px;
+    min-width: 300px;
   }
   
-  h1{
-    font-size: large;
-    margin: 0;
-  }
-   h4 {
-    font-size: medium;
-    margin: 0;
+  #ion-toolbar-content {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px 0;
   }
   
-  
-  .header-section{
-    display: none;
+  .ion-toolbar-content-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
   }
   
-  
-  .card-element:first-of-type{
-  flex: .1;
-  width: 30%;
+  .message-text {
+    max-width: 85%;
   }
   
+  .chat-section h1 {
+    font-size: 24px;
+  }
   
-.ion-button-group{
-  ion-button{
-    margin: 0px 0px 0px 10px;
-    font-size: 10px;
-    align-content: center;
-    padding: 2px;
-    width: 80%;
+  .ion-button-group ion-button {
+    font-size: 14px;
   }
-  ion-button:hover{
-    transform: scale(1.1);
-  }
-  padding: 1px;
-  transition: transform 0.5s ease-in-out; /* Smooth grow transition */
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+    margin: 16px auto;
+  }
   
-
-  .header-section{
-    display: none;
+  .card-element {
+    padding: 20px;
+    margin: 0 0 16px 0;
+    min-width: 280px;
   }
-  .chat-section {
-    height: 65vh;
-
-    ion-input{
-      width: 45%;
-    
-    }
+  
+  .chat-container {
+    padding: 16px;
   }
+  
   .messages {
-    max-height: 58vh;
-    scrollbar-width: 2px;
+    max-height: 250px;
   }
-  .message img {
-    width: 30px;
-    height: 30px;
-  }
-  .message.bot {
-    width: 100%;
-  }
-  .message.user {
-    width: 100%;
+  
+  .message-text {
+    padding: 12px 16px;
+    font-size: 14px;
   }
 }
 
-@media screen and (max-width: 1000px){
-  .chat-section{
-    margin: 0px;
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .card-element {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #f1f5f9;
+    border-color: rgba(255,255,255,0.1);
   }
+  
+  .chat-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-color: rgba(255,255,255,0.1);
+  }
+  
+  ion-card.history {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #f1f5f9;
+  }
+  
+  ion-input {
+    --background: rgba(30, 41, 59, 0.9);
+    --color: #f1f5f9;
+  }
+}
+
+/* Special Effects */
+.sparkle {
+  position: relative;
+}
+
+.sparkle::before {
+  content: '✨';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  animation: bounce 2s infinite;
+  font-size: 12px;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  animation: pulse 2s infinite;
 }

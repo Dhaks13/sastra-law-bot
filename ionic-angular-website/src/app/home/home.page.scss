@@ -1,23 +1,62 @@
+/* Glassy content container */
+.content {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
 /* Paragraph styles */
 .content p {
   font-size: 40px;
-  line-height: 1.2em; /* Changed from 2wm to 2em */
-  color: #222222;
-  padding: 25px 0 0 0;
+  line-height: 1.3em;
+  color: #1c1c1c;
+  padding-top: 25px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #0d324d, #7f5a83);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: slideUp 0.8s ease-out;
 }
 
 /* Span styles */
 .content span {
-  color: #222222c0;
+  color: rgba(0, 0, 0, 0.6);
 }
 
+/* Image container with floating effect */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(120, 120, 120, 0.3);
+  border-radius: 20px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: float 4s ease-in-out infinite;
+}
 
 .image-container img {
-    
-  width: 220px;
-  height: 220px;
+  width: 300px;
+  height: 300px;
+  border-radius: 12px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+.image-container img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
 
 /* Button group container styles using grid */
 .button-group-container {
@@ -33,89 +72,78 @@
   gap: 30px;
 }
 
-/* Button styles */
-ion-button {
-  margin-top: 20px;
-  --background: #222222;
-  --background-hover: #ffffff;
-  --background-activated: #000000;
-  --background-focused: #ffffff;
+/* Button styles with neon gradient glow */
 
-  --color: #ffffff;
-  --color-hover: #c4c4c4;
-  --color-activated: #ffffff;
-
-  --border-radius: 7%;
-  --border-color: #000;
-  --border-style: solid;
-  --border-width: 1px;
-
-  --box-shadow: 2px 6px rgba(255, 255, 255, 0.5);
-  --box-shadow-hover: 2px 6px rgba(0, 0, 0, 0.5);
-  --ripple-color: whitesmoke;
-
-  --padding-top: 10px;
-  --padding-bottom: 10px;
-
-  width: 170px;
-  height: 75px;
-  font-size: 20px;
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+/* Slide up */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* Responsive styles for screens smaller than 740px */
 @media screen and (max-width: 740px) {
+  .content {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
   ion-title {
     font-size: 1em;
   }
 
   .content p {
     font-size: 20px;
-    line-height: 0.8em;
-    padding: 15px 0 0 0;
+    line-height: 1.1em;
+    padding-top: 15px;
   }
 
-  /* Adjust button size for small screens */
   ion-button {
     width: 120px;
     height: 60px;
     font-size: 16px;
   }
 
-  .image-container img{
-  width: 120px;
-  height: 120px;  
+  .image-container img {
+    width: 120px;
+    height: 120px;
   }
 
   #ion-button-group {
     margin-top: 10px;
-    display:grid;
+    display: grid;
     justify-self: center;
     gap: 10px;
   }
-  
-
 }
 
-/* Responsive styles for screens between 740px and 1124px */
+/* Medium screens */
 @media screen and (min-width: 740px) and (max-width: 1444px) {
   .content p {
     font-size: 28px;
-    line-height: 1em;
-    padding: 20px 0 0 0;
+    line-height: 1.2em;
+    padding-top: 20px;
   }
 
-  /* Adjust button size for medium screens */
   ion-button {
     width: 150px;
     height: 50px;
     font-size: 18px;
   }
 
-  
   .image-container img {
-    
     width: 200px;
     height: 200px;
   }

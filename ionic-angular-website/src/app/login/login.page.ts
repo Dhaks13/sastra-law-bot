@@ -10,7 +10,6 @@ import { LoadingService } from '../services/loading.service';
 import { CookieService } from 'ngx-cookie-service';
 
 
-declare var grecaptcha: any; // Declare grecaptcha to avoid TypeScript errors
 
 @Component({
   selector: 'app-login',
@@ -21,7 +20,6 @@ export class LoginPage {
   isSignIn: boolean = true;
   captchaResolved: boolean = false;
   buttonDisabled: boolean = true; // Initially disable button
-  siteKey: string = '6LeP-gMqAAAAAKBnPq-tjdPwYuJIz6k-dldJOPul'; // reCAPTCHA v3 site key
   password: string = '';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
@@ -32,9 +30,6 @@ export class LoginPage {
   usernameExists: boolean = false;
   signupFormErrors: boolean = false;
   signinFormErrors: boolean = false;
-  @ViewChild('recaptchaToken', { static: true }) recaptchaToken!: ElementRef;
-  @ViewChild('recaptcha', { static: true }) recaptcha!: ElementRef;
-  @ViewChild('recaptchaElement', { static: false }) recaptchaElement!: ElementRef;
   @ViewChild('UsernameInput', { static: true }) UsernameInput!: IonInput;
   
   constructor(private cookieService: CookieService, private loading: LoadingService,private router: Router ,private route: ActivatedRoute,private fb: FormBuilder,private http: HttpClient,private apiService: ApiService) {
@@ -70,38 +65,9 @@ export class LoginPage {
       this.isSignIn = params['isSignIn'] === 'true';
     });
   }
-  
-  ngAfterViewInit() {
-    // Initialize reCAPTCHA v3
-    this.loadReCaptcha();
-  }
-  
-  loadReCaptcha() {
-    const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/api.js?render=${this.siteKey}`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      grecaptcha.ready(() => {
-        this.executeReCaptcha();
-      });
-    };
-    document.body.appendChild(script);
-  }
-  
-  executeReCaptcha() {
-    grecaptcha.execute(this.siteKey, { action: 'login' }).then((token: string) => {
-      console.log('reCAPTCHA token:', token);
-      this.resolvedCaptcha(token);
-    });
-  }
 
-  resolvedCaptcha(token: string) {
-    if (token) {
-      this.captchaResolved = true;
-      this.buttonDisabled = false; // Enable button once captcha is resolved
-    }
-  }
+
+ 
   
   onInput_username(ev: any) {
   const value = ev.target!.value;
@@ -153,11 +119,7 @@ export class LoginPage {
     this.signinForm.reset();
     this.signupForm.reset();
     this.isSignIn = !this.isSignIn;
-    this.resetCaptcha();
-    setTimeout(() => {
-      // Re-initialize reCAPTCHA v3
-      this.executeReCaptcha();
-    }, 500); // Adjust timeout as needed
+
     this.loading.setLoading(false);
   }
   
@@ -177,22 +139,7 @@ export class LoginPage {
 
   submitSignupForm() {
     this.loading.setLoading(true);
-    // Handle your form submission here
-    // if (this.signupForm.valid) {
-    //   const options = {
-    //     url: environment.API_URL + '/authentication/validate_recaptcha/',
-    //     data: {
-    //       token: this.signupForm.value.recaptchaToken,
-    //       action: 'signup'
-    //     },
-    //     callback: (response: any) => {
-    //       console.log('Signup response:', response);
-    //       // Handle signup response here, e.g., show success message, redirect, etc.
-    //     }
-    //   };
-
-    //   this.apiService.apiCallHttpPost(options);
-    // }
+    
     if(this.signupForm.valid){
       const options={
         url:environment.API_URL + '/api/Signup/',
@@ -222,22 +169,7 @@ export class LoginPage {
 
   submitSignInForm() {
     this.loading.setLoading(true);
-    // Handle your form submission here
-    //if (this.signinForm.valid) {
-      // const options = {
-      //   url: environment.API_URL + '/authentication/validate_recaptcha/',
-      //   data: {
-      //     token: this.signinForm.value.recaptchaToken,
-      //     action: 'login'
-      //   },
-      //   callback: (response: any) => {
-      //     console.log('Signin response:', response);
-      //     // Handle signup response here, e.g., show success message, redirect, etc.
-      //   }
-      // };
-
-      // this.apiService.apiCallHttpPost(options);
-    //}
+    
     if (this.signinForm.valid) {
       const options = {
         url: environment.API_URL + '/api/Login/',

@@ -1,4 +1,4 @@
-<ion-header id="ion-header">
+<!-- <ion-header id="ion-header">
   <ion-toolbar class="ion-top-bar">
     <div id="ion-toolbar-content">
       <img src="../../assets/icon/shvard_logo.jpg" alt="SHVARD Icon" />
@@ -11,21 +11,21 @@
       </div>
     </div>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content [fullscreen]="true">
   <div class="container">
-    <div class="card-container">
-      <div class="card-element">
+    <!-- <div class="card-container"> -->
+      <!-- <div class="card-element">
         <div class="element-content">     
           <div class="button-group-container">
             <div id="ion-button-group" class="ion-button-group">
               <ion-button expand="block" fill="outline" (click)="dash()">
                 Dashboard
               </ion-button>
-              <!-- <ion-button expand="block" fill="outline" (click)="dss()">
+              <ion-button expand="block" fill="outline" (click)="dss()">
                 Decision support system
-              </ion-button> -->
+              </ion-button>
               <ion-button expand="block" fill="outline" (click)="rs()">
                 Property & Family Dispute Bot
               </ion-button> 
@@ -38,8 +38,16 @@
             <img src="assets/icon/tata_logo.jpg" alt="Tata Icon" />
           </div> 
         </div>
-      </div>
-      <div class="card-element">
+      </div> -->
+      <!-- <div class="card-element"> -->
+        <div class="side-nav">
+          <ion-button class="nav-button">
+            <ion-icon slot="icon-only" name="clear-on-edit" aria-hidden="true"></ion-icon>
+          </ion-button>
+          <div class="loged">
+            <span class="username">{{username}}Dhakshin</span>
+            <ion-button (click)="logout()" class="logout-button">Logout</ion-button>
+          </div>
         <div class="chat-history">
           <div class="history">
           <ion-card id="title{{-1}}" class="history"         [ngClass]="{ active: isActive(-1) }" (click)="loadChat(-1,-1)">
@@ -52,14 +60,15 @@
           </div>
         </div>
         </div>
-      </div>
+        </div>
+      <!-- </div> -->
 
-      <div class="card-element">
+      <!-- <div class="card-element"> -->
+        <app-loader *ngIf="loading"></app-loader>
         <div class="element-content element-content-chat">
-          <app-loader *ngIf="loading"></app-loader>
-          <div class="chat-section">
+          <div class="chat-container">
             <h1><b>Law ChatBot</b></h1>
-            <div class="chat-container">
+            <div class="chat-section">
               <div class="messages">
                 <div *ngIf="messages[0].type === 'bot'" class="message bot">
                   <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
@@ -97,8 +106,8 @@
             </div>
           </div>
         </div>
-        </div>
-      </div>
+        <!-- </div> -->
+      <!-- </div> -->
       
     </div>
       </div>

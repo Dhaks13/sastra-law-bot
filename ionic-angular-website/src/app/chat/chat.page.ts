@@ -22,19 +22,19 @@ export class ChatPage {
   voted: Array<boolean> = [true];
   constructor(public loading: LoadingService ,private cookieService: CookieService ,private route: ActivatedRoute, private router: Router,private apiService: ApiService) {
     this.loading.setLoading(true);
-    this.username = this.getUsernameFromCookie();
-    if(this.getUsernameFromCookie()==''){
-        this.router.navigate(['/home']);
-    }
+    // this.username = this.getUsernameFromCookie();
+    // if(this.getUsernameFromCookie()==''){
+    //     this.router.navigate(['/home']);
+    // }
     this.loading.setLoading(false);
   }
 
   ngOnInit() {
     this.loading.setLoading(true);
     this.username = this.getUsernameFromCookie();
-    if(this.getUsernameFromCookie()==''){
-        this.router.navigate(['/home']);
-    }
+    // if(this.getUsernameFromCookie()==''){
+    //     this.router.navigate(['/home']);
+    // }
     this.getChats(this.username, 1);
     this.active_index = -1;
     this.title_id = -1;

@@ -12,8 +12,6 @@ import { Storage } from '@ionic/storage';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
 
-// Import RecaptchaModule and RecaptchaFormsModule
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,12 +22,9 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     AppRoutingModule,
     SharedModule,
     LoginPageModule,
-    RecaptchaModule,
     HttpClientModule,
     FormsModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
-    IonicModule.forRoot({}) // Import RecaptchaFormsModule here
+    IonicModule.forRoot({}) 
   ],
   providers: [
     Storage,
