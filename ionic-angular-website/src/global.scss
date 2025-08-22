@@ -179,10 +179,12 @@ ion-button:active {
 
 /* Footer */
 ion-footer {
+  padding: auto;
+  margin: auto;
   position: fixed;
   bottom: 0;
   font-size: 12.5px;
-  height: 50px;
+  max-height: 35px;
   background-color: rgba(120, 120, 120, 0.75);
 }
 
@@ -191,7 +193,7 @@ ion-footer p {
   color: #1b1b1b;
   text-align: center;
   margin: 0;
-  line-height: 50px;
+  line-height: 30px;
 }
 
 /* Responsive adjustments */

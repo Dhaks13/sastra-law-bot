@@ -14,7 +14,7 @@
 </ion-header> -->
 
 <ion-content [fullscreen]="true">
-  <div class="container">
+  <div id="container" class="container">
     <!-- <div class="card-container"> -->
       <!-- <div class="card-element">
         <div class="element-content">     
@@ -41,20 +41,37 @@
       </div> -->
       <!-- <div class="card-element"> -->
         <div class="side-nav">
-          <ion-button class="nav-button">
-            <ion-icon slot="icon-only" name="clear-on-edit" aria-hidden="true"></ion-icon>
-          </ion-button>
-          <div class="loged">
-            <span class="username">{{username}}Dhakshin</span>
-            <ion-button (click)="logout()" class="logout-button">Logout</ion-button>
+        <!-- Close button -->
+         <div class="close-button-container">
+           <img *ngIf="nav"  src="../../assets/icon/shvard_logo.jpg" alt="SHVARD Icon" />
+            <ion-button class="settings-button close-button" (click)="toggleNav()">
+              <ion-icon [name]="nav ? 'close-outline' : 'menu-outline'"></ion-icon>
+            </ion-button>
+         </div>
+
+        <!-- Logged in user box -->
+        <div class="loged" *ngIf="nav">
+          <span class="username">{{ username }}</span>
+
+          <div class="settings-icon">
+            <ion-button class="settings-button" (click)="toggleTheme()">
+              <ion-icon [name]="isDark ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="logout()" class="settings-button logout-button">
+              <ion-icon name="log-out-outline"></ion-icon>
+            </ion-button>
           </div>
-        <div class="chat-history">
+        </div>
+        <div class="chat-history" *ngIf="nav">
           <div class="history">
-          <ion-card id="title{{-1}}" class="history"         [ngClass]="{ active: isActive(-1) }" (click)="loadChat(-1,-1)">
+          <ion-card id="title{{-1}}" class="history"         [ngClass]="{ active: isActive(-1) }" >
+            <!-- (click)="selectChatbot(-1,-1)" -->
             <p>New Chat</p>
           </ion-card>
           <div *ngFor="let chat of chats; index as i">
-            <ion-card id="title{{i}}" class="history"         [ngClass]="{ active: isActive(i) }"  (click)="loadChat(chat.title_id,i)">
+            <ion-card id="title{{i}}" class="history"         [ngClass]="{ active: isActive(i) }" >
+               <!-- (click)="selectChatbot(chat.title_id,i)" -->
               <p>{{chat.title}}</p>
             </ion-card>
           </div>
@@ -67,48 +84,20 @@
         <app-loader *ngIf="loading"></app-loader>
         <div class="element-content element-content-chat">
           <div class="chat-container">
-            <h1><b>Law ChatBot</b></h1>
-            <div class="chat-section">
-              <div class="messages">
-                <div *ngIf="messages[0].type === 'bot'" class="message bot">
-                  <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
-                  <div class="bot_messages{{0}}" class="message-text"><pre>{{messages[0].text}}</pre></div>
-                </div>
-                
-                <div *ngFor="let message of messages; index as i">
-                  <div *ngIf="i > 0 && message.type === 'bot'" class="message bot">
-                    <img src="../../assets/icon/robot_logo.jpg" alt="Bot Icon" />
-                    <div class="bot_message{{i}}" class="message-text">
-                      <pre>{{message.text}}</pre>
-                      <br>
-                      <div class='message-icons'>
-                        <ion-icon [id]="'bot_message' + i" (click)="copyText('bot_message' + i)" name="copy"></ion-icon>
-                        <ion-icon *ngIf='!voted[i] && message.id!=-1' (click)="vote(i,message.id,1)" name="thumbs-up-outline"></ion-icon>
-                        <ion-icon *ngIf='!voted[i] && message.id!=-1' (click)="vote(i,message.id,-1)" name="thumbs-down-outline"></ion-icon>
-                        </div>
-                    </div>
-                  </div>
-                  <div *ngIf="i > 0 && message.type === 'user'" class="message user">
-                      <div class="user_message{{i}}" class="message-text">
-                        <pre>{{message.text}}</pre>
-                        <br>
-                        <ion-icon [id]="'user_message' + i" (click)="copyText('user_message' + i)" name="copy"></ion-icon>
-                      </div>
-                      <img src="../../assets/icon/user_logo.jpg" alt="User Icon" />
-                  </div>
-                    
-              </div>          
-              <ion-input fill="outline" labelPlacement="stacked" label="Ask Us Question" placeholder="Type your message..." [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" [disabled]="isloading">
-                <ion-button [disabled]="isloading" fill="clear" slot="end" aria-label="send" (click)="sendMessage()">
-                  <ion-icon slot="icon-only" name="send" aria-hidden="true"></ion-icon>
-                </ion-button>
-              </ion-input>
+            <div class="dropdown">
+            <h1 class="dropdown-toggle" (click)="toggleDropdown()">
+             {{ getChatbotName(selectedChatbot) }} ▼
+            </h1>
+          <ul class="dropdown-menu" *ngIf="dropdownOpen">
+            <li *ngIf="selectedChatbot !== 'law'" (click)="selectChatbot('law')">Law ChatBot</li>
+            <li *ngIf="selectedChatbot !== 'pdb'" (click)="selectChatbot('pdb')">Property Dispute Bot</li>
+            <li *ngIf="selectedChatbot !== 'dss'" (click)="selectChatbot('dss')">Decision Support System</li>
+          </ul>
+        </div>
+              <app-lawchat *ngIf="selectedChatbot === 'law'"></app-lawchat>
+              <app-pdb *ngIf="selectedChatbot === 'pdb'"></app-pdb>
+              <app-dss *ngIf="selectedChatbot === 'dss'"></app-dss>
             </div>
           </div>
-        </div>
-        <!-- </div> -->
-      <!-- </div> -->
-      
-    </div>
       </div>
 </ion-content>

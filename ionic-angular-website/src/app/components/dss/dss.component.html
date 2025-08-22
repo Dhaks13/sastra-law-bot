@@ -1,0 +1,31 @@
+<div class="upload-section">
+    <h2>
+      Upload your Law PDF here and click on Process
+    </h2>
+    <div
+    class="drop-zone"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    >
+    <input
+        type="file"
+        accept=".pdf"
+        (change)="onFileSelected($event)"
+        hidden
+        #fileInput
+    />
+    <div class="drop-zone-text">
+        Drag and drop files here<br />
+        Limit 200MB per file<br />
+        <ion-button type="button" ion-button (click)="fileInput.click()">Browse files</ion-button>
+    </div>
+    </div>
+    <div *ngIf="selectedFile" style="display: inline;">
+    <ion-icon name="document-outline"></ion-icon>
+    {{ selectedFile.name }} ({{ selectedFile.size / 1024 | number: '1.0-2' }} KB)
+    <ion-icon name="trash-outline" (click)="removeFile()"></ion-icon>
+    </div>
+    <br>
+    <ion-button [disabled]="isloading" (click)="processFile()">Process</ion-button>
+</div>

@@ -1,0 +1,79 @@
+.upload-section {
+  background: var(--gradient-card);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 12px var(--shadow-accent);
+  color: var(--text);
+}
+
+.upload-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.drop-zone {
+  border: 2px dashed var(--primary-1);
+  background: var(--gradient-card);
+  width: 75%;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin: 1rem auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: var(--primary-2);
+  background: var(--primary-2-44);
+  transform: scale(1.02);
+}
+
+.drop-zone-text {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.drop-zone-text ion-button {
+  margin-top: 1rem;
+  background: var(--gradient-primary);
+  color: var(--white);
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.drop-zone-text ion-button:hover {
+  background: var(--gradient-accent);
+}
+
+.upload-section ion-icon {
+  font-size: 1.2rem;
+  color: var(--primary-1);
+  margin: 0 0.3rem;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.upload-section ion-icon:hover {
+  color: var(--danger);
+}
+
+.upload-section ion-button {
+  margin-top: 1rem;
+  background: var(--gradient-primary);
+  border-radius: 0.5rem;
+  color: var(--white);
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.upload-section ion-button:hover {
+  background: var(--gradient-accent);
+}

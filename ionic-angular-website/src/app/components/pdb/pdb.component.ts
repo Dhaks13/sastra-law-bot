@@ -1,0 +1,213 @@
+import { Component, ViewChild, ElementRef } from '@angular/core';import { LoadingService } from '../../services/loading.service';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
+import { ApiService } from '../../services/api.service'; 
+import { NgZone } from '@angular/core';
+
+@Component({
+  selector: 'app-pdb',
+  templateUrl: './pdb.component.html',
+  styleUrls: ['./pdb.component.scss'],
+})
+export class PdbComponent {
+  @ViewChild('messageswindow') private messagesContainer!: ElementRef;
+    active_index: number = -1;
+      title_id: number = -1;
+      chats: any = [];
+      userMessage: string = '';
+      messages: { id: number, text: string; type: string }[] = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+      voted: Array<boolean> = [true]; 
+      username: string = 'Guest';
+      isloading: boolean = false;
+      constructor(private loading: LoadingService ,private cookieService: CookieService ,private apiService: ApiService,private ngZone: NgZone) {
+        this.loading.setLoading(true);
+        this.username = this.getUsernameFromCookie();
+        this.loading.setLoading(false);
+      }
+    
+      private scrollToBottom(): void {
+  this.ngZone.onStable.subscribe(() => {
+    if (this.messagesContainer) {
+      this.messagesContainer.nativeElement.scrollTop =
+        this.messagesContainer.nativeElement.scrollHeight;
+    }
+  });
+}
+
+      getChats(user: string, chat_type: number) {
+        this.loading.setLoading(true);
+        const options = {
+          url: environment.API_URL + '/api/getchats/',
+          data: { user: user, chat_type: chat_type },
+          callback: (response: any) => {
+            this.loading.setLoading(false); // Hide the loader
+            this.isloading = false;
+            if (response.success) {
+              this.chats = response.data;
+            }
+          },
+          errorcall: (error: any) => {
+            this.loading.setLoading(false); // Hide the loader
+            this.isloading = false;
+            console.error('Server Error:', error);
+          }
+        };
+        this.apiService.apiCallHttpPost(options);
+      }
+    
+    
+    
+      getUsernameFromCookie() {
+        return this.cookieService.get('username');
+      }
+    
+    
+      sendMessage() {
+        this.loading.setLoading(true); // Show the loader
+        this.isloading = true;
+    
+        if (this.userMessage.trim()) {
+          const text = this.userMessage;
+          this.messages.push({id:-1, type: 'user', text: this.userMessage });
+          
+          const options = {
+            url: environment.API_URL + '/api/RecSys/',
+            data: { user: this.username, text: text, title_id: this.title_id },
+            callback: (response: any) => {
+              this.loading.setLoading(false); // Hide the loader
+              this.isloading = false;
+              if (response.success) {
+                console.log('Chatbot Response:', response.data.response); 
+                this.messages.push({id:response.data.id, type: 'bot', text: response.data.response });
+                this.voted.push(false);
+                this.title_id = response.data.title_id;
+                this.getChats(this.username, 2);
+                this.active_index = 0;
+            
+              } else {
+                console.error('Chatbot Offline');
+                this.messages.push({id: -1, type: 'bot', text: 'Sorry, I am unable to process your request at the moment. Please try again later.' });
+
+      
+              }
+            },
+            errorcall: (error: any) => {
+              this.loading.setLoading(false); // Hide the loader
+              this.isloading = false;
+              console.error('Server Error:', error);
+              this.messages.push({id:-1, type: 'bot', text: 'Sorry, there was an error processing your request. Please try again later.' });
+    
+            }
+          };
+          // Make the API call
+          this.apiService.apiCallHttpPost(options);
+      
+          // Clear the user message input
+          this.userMessage = '';
+  
+        } else {
+          this.loading.setLoading(false); // Hide the loader if no message is provided
+        }
+      setTimeout(() => this.scrollToBottom(), 0); // only when new message is added
+  }
+
+      copyText(id: string): void {
+        const range = document.createRange();
+        const elements = document.getElementsByClassName(id);
+      
+        if (elements.length > 0) {
+          const element = elements[0];
+          if (element.nodeType === Node.ELEMENT_NODE) {
+            range.selectNode(element);
+            const selection = window.getSelection();
+      
+            if (selection) {
+              selection.removeAllRanges(); // clear current selection
+              selection.addRange(range); // to select text
+            }
+      
+            document.execCommand("copy"); // perform the copy action
+            if (selection) {
+              selection.removeAllRanges(); // deselect
+            }
+          }
+        } else {
+          console.error('Element with class', id, 'not found.');
+        }
+      }
+      
+    
+      vote(i:number, id: number, value: number) {
+        const options = {
+          url: environment.API_URL + '/api/vote/',
+          data: { user: this.username, id: id, value: value },
+          callback: (response: any) => {
+            this.loading.setLoading(false); // Hide the loader
+            this.isloading = false;
+            if (response.success) {
+              console.log('Vote sucess:', id, value);
+              this.voted[i] = true;
+            } else {
+              console.error('Vote Error');  
+            }
+          },
+          errorcall: (error: any) => {
+            this.loading.setLoading(false); // Hide the loader
+            this.isloading = false;
+            console.error('Server Error:', error);
+          }
+        };
+        this.apiService.apiCallHttpPost(options);
+        
+      }
+    
+        
+      isActive(index: number): boolean {
+        return this.active_index === index;
+      }
+    
+     
+      loadChat(id: number,active: number){
+        this.loading.setLoading(true); // Show the loader
+        this.isloading = true;
+        if (id==-1){
+          this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+          this.loading.setLoading(false); // Hide the loader
+          this.isloading = false;
+          this.title_id = id;
+          this.active_index = active;
+          return;
+        }
+        const options = {
+          url: environment.API_URL + '/api/loadChat/',
+          data: {id: id },
+          callback: (response: any) => {
+            this.loading.setLoading(false); // Hide the loader
+            this.isloading = false;
+            this.messages = [{id:-1, text: 'Hello, I am a Legal Advisor. Ask your query on Family & Property Dispute ?', type: 'bot' }];
+            this.voted = [true];
+            if (response.success) {
+              this.title_id = id;
+              for (let i = 0; i < response.data.length; i++) {
+                this.messages.push({id:response.data[i].chat_id, type: 'user', text: response.data[i].user_message });
+                this.voted.push(true);
+                this.messages.push({id:response.data[i].chat_id, type: 'bot', text: response.data[i].gpt_message });
+                if (response.data[i].vote!=0){
+                  this.voted.push(true)
+                }
+                else{
+                  this.voted.push(false);
+                }
+              }
+              this.getChats(this.username, 2);
+            }
+          }
+        };
+        this.apiService.apiCallHttpPost(options);
+        this.title_id = id;
+        this.active_index = active;
+        this.loading.setLoading(false); // Hide the loader
+        this.isloading = false;
+        return
+      }
+}

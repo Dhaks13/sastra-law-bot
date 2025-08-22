@@ -28,29 +28,10 @@ const routes: Routes = [
       preload: true
     },
   },
-  // {
-  //   path: 'dss',
-  //   loadChildren: () => import('./dss/dss.module').then( m => m.DSSPageModule),
-  //   data: {
-  //     preload: true
-  //   },
-  // },
-  // {
-  //   path: 'dashboard',
-  //   loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule),
-  //   data: {
-  //     preload: true
-  //   },
-  // },
-  // {
-  //   path: 'rs',
-  //   loadChildren: () => import('./rs/rs.module').then( m => m.RSPageModule),
-  //   data: {
-  //     preload: true
-  //   },
-  // },
-
-
+  {
+    path: '**',
+    redirectTo: 'home'
+  }
 ];
 
 @NgModule({
